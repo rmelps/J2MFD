@@ -1,0 +1,321 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 46;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		95ED49EA1E836DD9001BA89D /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95ED49E91E836DD9001BA89D /* AppDelegate.swift */; };
+		95ED49EC1E836DD9001BA89D /* GameScene.sks in Resources */ = {isa = PBXBuildFile; fileRef = 95ED49EB1E836DD9001BA89D /* GameScene.sks */; };
+		95ED49EE1E836DD9001BA89D /* Actions.sks in Resources */ = {isa = PBXBuildFile; fileRef = 95ED49ED1E836DD9001BA89D /* Actions.sks */; };
+		95ED49F01E836DD9001BA89D /* GameScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95ED49EF1E836DD9001BA89D /* GameScene.swift */; };
+		95ED49F21E836DD9001BA89D /* GameViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95ED49F11E836DD9001BA89D /* GameViewController.swift */; };
+		95ED49F51E836DD9001BA89D /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 95ED49F31E836DD9001BA89D /* Main.storyboard */; };
+		95ED49F71E836DD9001BA89D /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 95ED49F61E836DD9001BA89D /* Assets.xcassets */; };
+		95ED49FA1E836DD9001BA89D /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 95ED49F81E836DD9001BA89D /* LaunchScreen.storyboard */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXFileReference section */
+		95ED49E61E836DD9001BA89D /* Justone vs Obama.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Justone vs Obama.app"; sourceTree = BUILT_PRODUCTS_DIR; };
+		95ED49E91E836DD9001BA89D /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
+		95ED49EB1E836DD9001BA89D /* GameScene.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = GameScene.sks; sourceTree = "<group>"; };
+		95ED49ED1E836DD9001BA89D /* Actions.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = Actions.sks; sourceTree = "<group>"; };
+		95ED49EF1E836DD9001BA89D /* GameScene.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameScene.swift; sourceTree = "<group>"; };
+		95ED49F11E836DD9001BA89D /* GameViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameViewController.swift; sourceTree = "<group>"; };
+		95ED49F41E836DD9001BA89D /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
+		95ED49F61E836DD9001BA89D /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		95ED49F91E836DD9001BA89D /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
+		95ED49FB1E836DD9001BA89D /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		95ED49E31E836DD9001BA89D /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		95ED49DD1E836DD9001BA89D = {
+			isa = PBXGroup;
+			children = (
+				95ED49E81E836DD9001BA89D /* Justone vs Obama */,
+				95ED49E71E836DD9001BA89D /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		95ED49E71E836DD9001BA89D /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				95ED49E61E836DD9001BA89D /* Justone vs Obama.app */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		95ED49E81E836DD9001BA89D /* Justone vs Obama */ = {
+			isa = PBXGroup;
+			children = (
+				95ED49E91E836DD9001BA89D /* AppDelegate.swift */,
+				95ED49EB1E836DD9001BA89D /* GameScene.sks */,
+				95ED49ED1E836DD9001BA89D /* Actions.sks */,
+				95ED49EF1E836DD9001BA89D /* GameScene.swift */,
+				95ED49F11E836DD9001BA89D /* GameViewController.swift */,
+				95ED49F31E836DD9001BA89D /* Main.storyboard */,
+				95ED49F61E836DD9001BA89D /* Assets.xcassets */,
+				95ED49F81E836DD9001BA89D /* LaunchScreen.storyboard */,
+				95ED49FB1E836DD9001BA89D /* Info.plist */,
+			);
+			path = "Justone vs Obama";
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		95ED49E51E836DD9001BA89D /* Justone vs Obama */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 95ED49FE1E836DD9001BA89D /* Build configuration list for PBXNativeTarget "Justone vs Obama" */;
+			buildPhases = (
+				95ED49E21E836DD9001BA89D /* Sources */,
+				95ED49E31E836DD9001BA89D /* Frameworks */,
+				95ED49E41E836DD9001BA89D /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = "Justone vs Obama";
+			productName = "Justone vs Obama";
+			productReference = 95ED49E61E836DD9001BA89D /* Justone vs Obama.app */;
+			productType = "com.apple.product-type.application";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		95ED49DE1E836DD9001BA89D /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastSwiftUpdateCheck = 0820;
+				LastUpgradeCheck = 0820;
+				ORGANIZATIONNAME = J2MFD;
+				TargetAttributes = {
+					95ED49E51E836DD9001BA89D = {
+						CreatedOnToolsVersion = 8.2.1;
+						DevelopmentTeam = A5EQQRPM7V;
+						ProvisioningStyle = Automatic;
+					};
+				};
+			};
+			buildConfigurationList = 95ED49E11E836DD9001BA89D /* Build configuration list for PBXProject "Justone vs Obama" */;
+			compatibilityVersion = "Xcode 3.2";
+			developmentRegion = English;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+				Base,
+			);
+			mainGroup = 95ED49DD1E836DD9001BA89D;
+			productRefGroup = 95ED49E71E836DD9001BA89D /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				95ED49E51E836DD9001BA89D /* Justone vs Obama */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		95ED49E41E836DD9001BA89D /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				95ED49F51E836DD9001BA89D /* Main.storyboard in Resources */,
+				95ED49EC1E836DD9001BA89D /* GameScene.sks in Resources */,
+				95ED49F71E836DD9001BA89D /* Assets.xcassets in Resources */,
+				95ED49FA1E836DD9001BA89D /* LaunchScreen.storyboard in Resources */,
+				95ED49EE1E836DD9001BA89D /* Actions.sks in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		95ED49E21E836DD9001BA89D /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				95ED49F01E836DD9001BA89D /* GameScene.swift in Sources */,
+				95ED49F21E836DD9001BA89D /* GameViewController.swift in Sources */,
+				95ED49EA1E836DD9001BA89D /* AppDelegate.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXVariantGroup section */
+		95ED49F31E836DD9001BA89D /* Main.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				95ED49F41E836DD9001BA89D /* Base */,
+			);
+			name = Main.storyboard;
+			sourceTree = "<group>";
+		};
+		95ED49F81E836DD9001BA89D /* LaunchScreen.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				95ED49F91E836DD9001BA89D /* Base */,
+			);
+			name = LaunchScreen.storyboard;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
+
+/* Begin XCBuildConfiguration section */
+		95ED49FC1E836DD9001BA89D /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 10.2;
+				MTL_ENABLE_DEBUG_INFO = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = iphoneos;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		95ED49FD1E836DD9001BA89D /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 10.2;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				SDKROOT = iphoneos;
+				SWIFT_OPTIMIZATION_LEVEL = "-Owholemodule";
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		95ED49FF1E836DD9001BA89D /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				DEVELOPMENT_TEAM = A5EQQRPM7V;
+				INFOPLIST_FILE = "Justone vs Obama/Info.plist";
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = "com.justtwomufuckindudes.Justone-vs-Obama";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 3.0;
+			};
+			name = Debug;
+		};
+		95ED4A001E836DD9001BA89D /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				DEVELOPMENT_TEAM = A5EQQRPM7V;
+				INFOPLIST_FILE = "Justone vs Obama/Info.plist";
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = "com.justtwomufuckindudes.Justone-vs-Obama";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 3.0;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		95ED49E11E836DD9001BA89D /* Build configuration list for PBXProject "Justone vs Obama" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				95ED49FC1E836DD9001BA89D /* Debug */,
+				95ED49FD1E836DD9001BA89D /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		95ED49FE1E836DD9001BA89D /* Build configuration list for PBXNativeTarget "Justone vs Obama" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				95ED49FF1E836DD9001BA89D /* Debug */,
+				95ED4A001E836DD9001BA89D /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = 95ED49DE1E836DD9001BA89D /* Project object */;
+}
