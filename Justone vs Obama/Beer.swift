@@ -27,7 +27,7 @@ class Beer: SKSpriteNode, GameSprite {
         let labattTexture = textureAtlas.textureNamed("labatt")
         super.init(texture: labattTexture, color: .clear, size: initialSize)
         
-        let rectSize = CGSize(width: labatt.size.width / 8, height: labatt.size.height / 4)
+        let rectSize = CGSize(width: labatt.size.width / 10, height: labatt.size.height / 6)
         self.physicsBody = SKPhysicsBody(rectangleOf: rectSize)
         self.physicsBody?.affectedByGravity = false
     }

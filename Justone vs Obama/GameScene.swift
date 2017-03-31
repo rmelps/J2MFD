@@ -21,6 +21,7 @@ class GameScene: SKScene {
     var playerProgress = CGFloat()
     let encounterManager = EncounterManager()
     var nextEncounterSpawnPosition: CGFloat = 150
+    var increaseXCamDiff: CGFloat = 0
     let oilCan = Oil()
     
     override func didMove(to view: SKView) {
@@ -75,15 +76,21 @@ class GameScene: SKScene {
         
         // Set position of first encounter
         encounterManager.encounters[0].position = CGPoint(x: 2000, y: 200)
-        print(encounterManager.encounters)
     }
     
     override func didSimulatePhysics() {
         super.didSimulatePhysics()
         // Keep the camera locked at midscreen by default
         var cameraYPos = screenCenterY
+        var cameraXPos = player.position.x + increaseXCamDiff
         cam.yScale = 1
         cam.xScale = 1
+        
+        if increaseXCamDiff < UIScreen.main.bounds.width / 3 {
+            increaseXCamDiff += 0.5
+            cameraXPos = player.position.x + increaseXCamDiff
+            print("player: \(player.position.x), camera: \(cameraXPos)")
+        }
         
         // Follow the player up if higher than half the screen
         if player.position.y > screenCenterY {
@@ -96,9 +103,9 @@ class GameScene: SKScene {
             cam.xScale = newScale
             
             // Move the camera for our adjustment
-            self.camera!.position = CGPoint(x: player.position.x, y: cameraYPos)
+            self.camera!.position = CGPoint(x: cameraXPos, y: cameraYPos)
         } else {
-            self.camera?.position = CGPoint(x: player.position.x, y: cameraYPos)
+            self.camera?.position = CGPoint(x: cameraXPos, y: cameraYPos)
         }
         
         // Keep track of how far the player has flown
@@ -195,19 +202,6 @@ class GameScene: SKScene {
             default:
                 break
             }
-            /*
-            if accelData.acceleration.y > 0.15 {
-                player.physicsBody?.velocity.dx += forceAmount
-                //movement.dx = forceAmount
-            }
-            // CoreMotion values are relative to portrait view.
-            // Since we are in landscape, use y values for x axis
-            else if accelData.acceleration.y < -0.15 {
-                player.physicsBody?.velocity.dx -= forceAmount
-                //movement.dx = -forceAmount
-            }
-            //player.physicsBody?.applyForce(movement)
-        */
         }
         
         // Turn justone into the landing position upon landing
