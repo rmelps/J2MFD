@@ -86,10 +86,10 @@ class GameScene: SKScene {
         cam.yScale = 1
         cam.xScale = 1
         
+        // Slowly pan the camera in front of Justone after the GameScene initializes
         if increaseXCamDiff < UIScreen.main.bounds.width / 3 {
             increaseXCamDiff += 0.5
             cameraXPos = player.position.x + increaseXCamDiff
-            print("player: \(player.position.x), camera: \(cameraXPos)")
         }
         
         // Follow the player up if higher than half the screen
