@@ -81,7 +81,7 @@ class Player: SKSpriteNode, GameSprite {
         }
         
         // Set a constant velocity to the right
-       self.physicsBody?.velocity.dx = 200
+       self.physicsBody?.velocity.dx = 400
         
     }
     
@@ -115,6 +115,7 @@ class Player: SKSpriteNode, GameSprite {
                 textureAtlas.textureNamed("justonesPlanePropSide")
             ]
         
+        // Create an engine slowing-down effect by slowly decreasing timePerFrame
         for _ in 0...500 {
         let soarAction = SKAction.animate(with: soarFrames, timePerFrame: timeFrame)
             

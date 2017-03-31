@@ -171,16 +171,31 @@ class GameScene: SKScene {
             // that allows us to pull the current orientation
             switch UIApplication.shared.statusBarOrientation {
             case .landscapeLeft:
-                forceAmount = 100
+                forceAmount = 200
                 
             case .landscapeRight:
-                forceAmount = -100
+                forceAmount = -200
             default:
                 forceAmount = 0
             }
             
             // If the device is tilted more than 15% towards vertical
             // then we want to move Justone
+            let accelY = accelData.acceleration.y
+            
+            switch accelY {
+            case 0.05 ... 0.15:
+                player.physicsBody?.velocity.dx += forceAmount / 2
+            case -0.15 ... -0.05:
+                player.physicsBody?.velocity.dx -= forceAmount / 2
+            case _ where accelY > 0.15 :
+                player.physicsBody?.velocity.dx += forceAmount
+            case _ where accelY < -0.15:
+                player.physicsBody?.velocity.dx -= forceAmount
+            default:
+                break
+            }
+            /*
             if accelData.acceleration.y > 0.15 {
                 player.physicsBody?.velocity.dx += forceAmount
                 //movement.dx = forceAmount
@@ -192,6 +207,7 @@ class GameScene: SKScene {
                 //movement.dx = -forceAmount
             }
             //player.physicsBody?.applyForce(movement)
+        */
         }
         
         // Turn justone into the landing position upon landing
