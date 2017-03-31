@@ -19,6 +19,9 @@ class GameScene: SKScene {
     var screenCenterY = CGFloat()
     let initialPlayerPosition = CGPoint(x: 150, y: 250)
     var playerProgress = CGFloat()
+    let encounterManager = EncounterManager()
+    var nextEncounterSpawnPosition: CGFloat = 150
+    let oilCan = Oil()
     
     override func didMove(to view: SKView) {
         super.didMove(to: view)
@@ -30,16 +33,6 @@ class GameScene: SKScene {
         
         // Assign the camera to the scene
         self.camera = cam
-        
-        // Add a second obama
-        let obama2 = Obama()
-        obama2.position = CGPoint(x: 325, y: 225)
-        self.addChild(obama2)
-        
-        // Add a third obama
-        let obama3 = Obama()
-        obama3.position = CGPoint(x: 310, y: 120)
-        self.addChild(obama3)
         
         // Position the ground based on the screen size
         // Position X: negative one screen width
@@ -61,6 +54,10 @@ class GameScene: SKScene {
         // Add the player node to the screen
         self.addChild(player)
         
+        // Place the oil can out of the way for now
+        self.addChild(oilCan)
+        oilCan.position = CGPoint(x: -1000, y: -1000)
+        
         // Start reporting orientation data
         self.motionManager.startAccelerometerUpdates()
         
@@ -72,6 +69,13 @@ class GameScene: SKScene {
         
         // Set initial camera position
         self.camera!.position = player.position
+        
+        // Add each encounter node as a child of the GameScene node
+        encounterManager.addEncountersToScene(gameScene: self)
+        
+        // Set position of first encounter
+        encounterManager.encounters[0].position = CGPoint(x: 2000, y: 200)
+        print(encounterManager.encounters)
     }
     
     override func didSimulatePhysics() {
@@ -102,6 +106,26 @@ class GameScene: SKScene {
         
         // Check to see if the ground should jump forward
         ground.checkForReposition(playerprogress: playerProgress)
+        
+        // Check to see if a new encounter shoud be set
+        if player.position.x > nextEncounterSpawnPosition {
+            encounterManager.placeNextEncounter(currentXPos: nextEncounterSpawnPosition)
+            nextEncounterSpawnPosition += 1200
+            
+            // Each encounter has a 10% chance to spawn an oil can
+            let oilChance = Int(arc4random_uniform(10))
+            if oilChance == 0 {
+                // Only move the can if it is off the screen
+                if abs(player.position.x - oilCan.position.x) > 1200 {
+                    // Y Position 50 - 450
+                    let randomYPos = 50 + CGFloat(arc4random_uniform(400))
+                    oilCan.position = CGPoint(x: nextEncounterSpawnPosition, y: randomYPos)
+                    // Remove any previous velocity and spin
+                    oilCan.physicsBody?.angularVelocity = 0
+                    oilCan.physicsBody?.velocity = CGVector.zero
+                }
+            }
+        }
 
     }
     
@@ -136,9 +160,11 @@ class GameScene: SKScene {
     override func update(_ currentTime: TimeInterval) {
         player.update()
         
+        
         // Unwrap the accelerometer data optional
         if let accelData = self.motionManager.accelerometerData {
             var forceAmount: CGFloat
+            //var movement = CGVector()
             
             // Based on the device orientation, the tilt number can indicate
             // opposite user desires. The UIApplication class exposes an enum
@@ -146,6 +172,7 @@ class GameScene: SKScene {
             switch UIApplication.shared.statusBarOrientation {
             case .landscapeLeft:
                 forceAmount = 100
+                
             case .landscapeRight:
                 forceAmount = -100
             default:
@@ -156,12 +183,15 @@ class GameScene: SKScene {
             // then we want to move Justone
             if accelData.acceleration.y > 0.15 {
                 player.physicsBody?.velocity.dx += forceAmount
+                //movement.dx = forceAmount
             }
             // CoreMotion values are relative to portrait view.
             // Since we are in landscape, use y values for x axis
             else if accelData.acceleration.y < -0.15 {
                 player.physicsBody?.velocity.dx -= forceAmount
+                //movement.dx = -forceAmount
             }
+            //player.physicsBody?.applyForce(movement)
         }
         
         // Turn justone into the landing position upon landing
