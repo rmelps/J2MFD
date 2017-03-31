@@ -81,7 +81,7 @@ class Player: SKSpriteNode, GameSprite {
         }
         
         // Set a constant velocity to the right
-        self.physicsBody?.velocity.dx = 200
+       self.physicsBody?.velocity.dx = 200
         
     }
     
@@ -89,14 +89,14 @@ class Player: SKSpriteNode, GameSprite {
         let rotateUpAction = SKAction.rotate(toAngle: 0, duration: 0.475)
         rotateUpAction.timingMode = .easeOut
         
-        let rotateDownAction = SKAction.rotate(toAngle: -1, duration: 0.8)
+        let rotateDownAction = SKAction.rotate(toAngle: -1, duration: 3)
         rotateDownAction.timingMode = .easeIn
         
         // Create the flying animation:
         let flyFrames: [SKTexture] = [
-            textureAtlas.textureNamed("justonesPlanePropUp"),
-            textureAtlas.textureNamed("justonesPlanePropSide")
-        ]
+                textureAtlas.textureNamed("justonesPlanePropUp"),
+                textureAtlas.textureNamed("justonesPlanePropSide")
+            ]
         let flyAction = SKAction.animate(with: flyFrames, timePerFrame: 0.03)
         
         // Group together the flying animation with rotation
@@ -107,12 +107,26 @@ class Player: SKSpriteNode, GameSprite {
         
         // Create the soaring animation
         // just one frame for now
-        let soarFrames: [SKTexture] = [textureAtlas.textureNamed("justonesPlanePropSide")]
-        let soarAction = SKAction.animate(with: soarFrames, timePerFrame: 1)
+        var soarActions = [SKAction]()
+        var timeFrame = 0.03
         
+        let soarFrames: [SKTexture] = [
+                textureAtlas.textureNamed("justonesPlanePropUp"),
+                textureAtlas.textureNamed("justonesPlanePropSide")
+            ]
+        
+        for _ in 0...500 {
+        let soarAction = SKAction.animate(with: soarFrames, timePerFrame: timeFrame)
+            
+            soarActions.append(soarAction)
+            timeFrame += 0.01
+            
+        }
         //Group the soaring animation with the rotation down
+        let soarSequence = SKAction.sequence(soarActions)
+        
         soarAnimation = SKAction.group([
-            SKAction.repeatForever(soarAction),
+            soarSequence,
             rotateDownAction
         ])
     }
