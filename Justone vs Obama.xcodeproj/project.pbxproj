@@ -15,6 +15,10 @@
 		95ED49F51E836DD9001BA89D /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 95ED49F31E836DD9001BA89D /* Main.storyboard */; };
 		95ED49F71E836DD9001BA89D /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 95ED49F61E836DD9001BA89D /* Assets.xcassets */; };
 		95ED49FA1E836DD9001BA89D /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 95ED49F81E836DD9001BA89D /* LaunchScreen.storyboard */; };
+		95ED4A061E89DB71001BA89D /* GameSprite.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95ED4A051E89DB71001BA89D /* GameSprite.swift */; };
+		95ED4A081E89DBFF001BA89D /* Obama.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95ED4A071E89DBFF001BA89D /* Obama.swift */; };
+		95ED4A0A1E89E341001BA89D /* Ground.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95ED4A091E89E341001BA89D /* Ground.swift */; };
+		95ED4A0C1E89EE18001BA89D /* Player.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95ED4A0B1E89EE18001BA89D /* Player.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -28,6 +32,10 @@
 		95ED49F61E836DD9001BA89D /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		95ED49F91E836DD9001BA89D /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		95ED49FB1E836DD9001BA89D /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		95ED4A051E89DB71001BA89D /* GameSprite.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GameSprite.swift; sourceTree = "<group>"; };
+		95ED4A071E89DBFF001BA89D /* Obama.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Obama.swift; sourceTree = "<group>"; };
+		95ED4A091E89E341001BA89D /* Ground.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Ground.swift; sourceTree = "<group>"; };
+		95ED4A0B1E89EE18001BA89D /* Player.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Player.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -64,6 +72,10 @@
 				95ED49EB1E836DD9001BA89D /* GameScene.sks */,
 				95ED49ED1E836DD9001BA89D /* Actions.sks */,
 				95ED49EF1E836DD9001BA89D /* GameScene.swift */,
+				95ED4A0B1E89EE18001BA89D /* Player.swift */,
+				95ED4A051E89DB71001BA89D /* GameSprite.swift */,
+				95ED4A071E89DBFF001BA89D /* Obama.swift */,
+				95ED4A091E89E341001BA89D /* Ground.swift */,
 				95ED49F11E836DD9001BA89D /* GameViewController.swift */,
 				95ED49F31E836DD9001BA89D /* Main.storyboard */,
 				95ED49F61E836DD9001BA89D /* Assets.xcassets */,
@@ -148,7 +160,11 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				95ED4A0A1E89E341001BA89D /* Ground.swift in Sources */,
+				95ED4A081E89DBFF001BA89D /* Obama.swift in Sources */,
+				95ED4A061E89DB71001BA89D /* GameSprite.swift in Sources */,
 				95ED49F01E836DD9001BA89D /* GameScene.swift in Sources */,
+				95ED4A0C1E89EE18001BA89D /* Player.swift in Sources */,
 				95ED49F21E836DD9001BA89D /* GameViewController.swift in Sources */,
 				95ED49EA1E836DD9001BA89D /* AppDelegate.swift in Sources */,
 			);
