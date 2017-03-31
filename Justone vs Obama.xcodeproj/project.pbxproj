@@ -19,6 +19,9 @@
 		95ED4A081E89DBFF001BA89D /* Obama.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95ED4A071E89DBFF001BA89D /* Obama.swift */; };
 		95ED4A0A1E89E341001BA89D /* Ground.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95ED4A091E89E341001BA89D /* Ground.swift */; };
 		95ED4A0C1E89EE18001BA89D /* Player.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95ED4A0B1E89EE18001BA89D /* Player.swift */; };
+		95ED4A0E1E8E7D4D001BA89D /* Oil.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95ED4A0D1E8E7D4D001BA89D /* Oil.swift */; };
+		95ED4A101E8E81F2001BA89D /* Trump.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95ED4A0F1E8E81F2001BA89D /* Trump.swift */; };
+		95ED4A121E8E92DD001BA89D /* Beer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95ED4A111E8E92DD001BA89D /* Beer.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -36,6 +39,9 @@
 		95ED4A071E89DBFF001BA89D /* Obama.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Obama.swift; sourceTree = "<group>"; };
 		95ED4A091E89E341001BA89D /* Ground.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Ground.swift; sourceTree = "<group>"; };
 		95ED4A0B1E89EE18001BA89D /* Player.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Player.swift; sourceTree = "<group>"; };
+		95ED4A0D1E8E7D4D001BA89D /* Oil.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Oil.swift; sourceTree = "<group>"; };
+		95ED4A0F1E8E81F2001BA89D /* Trump.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Trump.swift; sourceTree = "<group>"; };
+		95ED4A111E8E92DD001BA89D /* Beer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Beer.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -75,6 +81,9 @@
 				95ED4A0B1E89EE18001BA89D /* Player.swift */,
 				95ED4A051E89DB71001BA89D /* GameSprite.swift */,
 				95ED4A071E89DBFF001BA89D /* Obama.swift */,
+				95ED4A0D1E8E7D4D001BA89D /* Oil.swift */,
+				95ED4A0F1E8E81F2001BA89D /* Trump.swift */,
+				95ED4A111E8E92DD001BA89D /* Beer.swift */,
 				95ED4A091E89E341001BA89D /* Ground.swift */,
 				95ED49F11E836DD9001BA89D /* GameViewController.swift */,
 				95ED49F31E836DD9001BA89D /* Main.storyboard */,
@@ -167,6 +176,9 @@
 				95ED4A0C1E89EE18001BA89D /* Player.swift in Sources */,
 				95ED49F21E836DD9001BA89D /* GameViewController.swift in Sources */,
 				95ED49EA1E836DD9001BA89D /* AppDelegate.swift in Sources */,
+				95ED4A121E8E92DD001BA89D /* Beer.swift in Sources */,
+				95ED4A101E8E81F2001BA89D /* Trump.swift in Sources */,
+				95ED4A0E1E8E7D4D001BA89D /* Oil.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

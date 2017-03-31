@@ -31,16 +31,6 @@ class GameScene: SKScene {
         // Assign the camera to the scene
         self.camera = cam
         
-        // Add a second obama
-        let obama2 = Obama()
-        obama2.position = CGPoint(x: 325, y: 225)
-        self.addChild(obama2)
-        
-        // Add a third obama
-        let obama3 = Obama()
-        obama3.position = CGPoint(x: 310, y: 120)
-        self.addChild(obama3)
-        
         // Position the ground based on the screen size
         // Position X: negative one screen width
         // Position Y: 150 above the bottom (remember the top left anchor point)
@@ -139,6 +129,7 @@ class GameScene: SKScene {
         // Unwrap the accelerometer data optional
         if let accelData = self.motionManager.accelerometerData {
             var forceAmount: CGFloat
+            //var movement = CGVector()
             
             // Based on the device orientation, the tilt number can indicate
             // opposite user desires. The UIApplication class exposes an enum
@@ -146,6 +137,7 @@ class GameScene: SKScene {
             switch UIApplication.shared.statusBarOrientation {
             case .landscapeLeft:
                 forceAmount = 100
+                
             case .landscapeRight:
                 forceAmount = -100
             default:
@@ -156,12 +148,15 @@ class GameScene: SKScene {
             // then we want to move Justone
             if accelData.acceleration.y > 0.15 {
                 player.physicsBody?.velocity.dx += forceAmount
+                //movement.dx = forceAmount
             }
             // CoreMotion values are relative to portrait view.
             // Since we are in landscape, use y values for x axis
             else if accelData.acceleration.y < -0.15 {
                 player.physicsBody?.velocity.dx -= forceAmount
+                //movement.dx = -forceAmount
             }
+            //player.physicsBody?.applyForce(movement)
         }
         
         // Turn justone into the landing position upon landing
