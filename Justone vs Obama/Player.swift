@@ -27,6 +27,19 @@ class Player: SKSpriteNode, GameSprite {
     var flyAnimation = SKAction()
     var soarAnimation = SKAction()
     
+    // The player will be able to take 3 hits before the game is over
+    var health: Int = 3
+    // Keep track of when the player is invulnerable
+    var invulnerable = false
+    // Keep track of when the player is newly damaged
+    var damaged = false
+    // Properties to store animations when the player takes damage or dies
+    var damageAnimation = SKAction()
+    var dieAnimation = SKAction()
+    
+    // Stop forward velocity if the player dies, so store it as a property
+    var forwardVelocity: CGFloat = 300
+    
     required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
     }
@@ -54,6 +67,10 @@ class Player: SKSpriteNode, GameSprite {
         
         //Prevent Justone from rotating
         self.physicsBody?.allowsRotation = false
+        
+        self.physicsBody?.categoryBitMask = PhysicsCategory.justone.rawValue
+        self.physicsBody?.contactTestBitMask = PhysicsCategory.enemy.rawValue | PhysicsCategory.ground.rawValue | PhysicsCategory.oil.rawValue | PhysicsCategory.beer.rawValue
+        self.physicsBody?.collisionBitMask = PhysicsCategory.ground.rawValue
     }
     
     func update() {
@@ -81,7 +98,7 @@ class Player: SKSpriteNode, GameSprite {
         }
         
         // Set a constant velocity to the right
-       self.physicsBody?.velocity.dx = 400
+       self.physicsBody?.velocity.dx = self.forwardVelocity
         
     }
     
@@ -92,7 +109,7 @@ class Player: SKSpriteNode, GameSprite {
         let rotateDownAction = SKAction.rotate(toAngle: -1, duration: 3)
         rotateDownAction.timingMode = .easeIn
         
-        // Create the flying animation:
+        // *******Create the flying animation*******
         let flyFrames: [SKTexture] = [
                 textureAtlas.textureNamed("justonesPlanePropUp"),
                 textureAtlas.textureNamed("justonesPlanePropSide")
@@ -105,7 +122,7 @@ class Player: SKSpriteNode, GameSprite {
             rotateUpAction
         ])
         
-        // Create the soaring animation
+        // ******Create the soaring animation*******
         // just one frame for now
         var soarActions = [SKAction]()
         var timeFrame = 0.03
@@ -130,6 +147,45 @@ class Player: SKSpriteNode, GameSprite {
             soarSequence,
             rotateDownAction
         ])
+        
+        // ******Create the taking damage animation******
+        let damageStart = SKAction.run {
+            // Allow justone to pass thru enemies
+            self.physicsBody?.categoryBitMask = PhysicsCategory.damagedJustone.rawValue
+        }
+        
+        // Create an opacity pulse, slow at first fast at the end
+        let slowFade = SKAction.sequence([
+            SKAction.fadeAlpha(to: 0.3, duration: 0.35),
+            SKAction.fadeAlpha(to: 0.7, duration: 0.35)
+            ])
+        let fastFade = SKAction.sequence([
+            SKAction.fadeAlpha(to: 0.3, duration: 0.2),
+            SKAction.fadeAlpha(to: 0.7, duration: 0.2)
+            ])
+        let fadeOutAndIn = SKAction.sequence([
+            SKAction.repeat(slowFade, count: 2),
+            SKAction.repeat(fastFade, count: 5),
+            SKAction.fadeAlpha(to: 1, duration: 0.15)
+            ])
+        
+        // Return justone to normal
+        let damageEnd = SKAction.run {
+            self.physicsBody?.categoryBitMask = PhysicsCategory.justone.rawValue
+            
+            // Turn off the damaged indicator
+            self.damaged = false
+        }
+        
+        // Store the whole sequence in the damageAnimation property:
+        self.damageAnimation = SKAction.sequence([
+            damageStart,
+            fadeOutAndIn,
+            damageEnd
+            ])
+        
+        // *******Create the die animation*******
+        self.dieAnimation = SKAction.colorize(with: .red, colorBlendFactor: 0.7, duration: 1.0)
     }
     
     func onTap() {
@@ -137,14 +193,51 @@ class Player: SKSpriteNode, GameSprite {
     }
     
     func startFlying() {
-        self.removeAllActions()
+        if self.health <= 0 {
+            return
+        }
+        self.removeAction(forKey: "soarAnimation")
         self.run(flyAnimation, withKey: "flyAnimation")
         self.engineRotating = true
     }
     
     func stopFlying() {
+        if self.health <= 0 {
+            return
+        }
         self.removeAction(forKey: "flyAnimation")
         self.run(soarAnimation, withKey: "soarAnimation")
+        self.engineRotating = false
+    }
+    
+    func takeDamage() {
+        // If invulnerable or damaged, return:
+        if self.invulnerable || self.damaged {
+            return
+        }
+        // Set the damaged indicator to true after being hit
+        self.damaged = true
+        
+        // Remove one from the health pool
+        self.health -= 1
+        
+        if self.health == 0 {
+            // If out of health, run the die function
+            die()
+        } else {
+            // Run the take damage animation
+            self.run(self.damageAnimation)
+        }
+    }
+    
+    func die() {
+        // Make sure the player is fully visible
+        self.alpha = 1
+        // Remove all animations
+        self.removeAllActions()
+        // Run the die animation
+        self.run(dieAnimation)
+        // prevent any further upward movement
         self.engineRotating = false
     }
 }

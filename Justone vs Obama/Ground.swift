@@ -43,6 +43,8 @@ class Ground: SKSpriteNode, GameSprite {
         let pointTopLeft = CGPoint(x: 0, y: 0)
         let pointTopRight = CGPoint(x: size.width, y: 0)
         self.physicsBody = SKPhysicsBody(edgeFrom: pointTopLeft, to: pointTopRight)
+        self.physicsBody?.friction = 0.5
+        self.physicsBody?.categoryBitMask = PhysicsCategory.ground.rawValue
         
         // Save the width of the one-third of the children nodes
         jumpWidth = tileSize.width * floor(tileCount / 3)

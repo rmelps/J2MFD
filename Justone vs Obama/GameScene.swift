@@ -10,7 +10,16 @@ import SpriteKit
 import GameplayKit
 import CoreMotion
 
-class GameScene: SKScene {
+enum PhysicsCategory: UInt32 {
+    case justone = 1
+    case damagedJustone = 2
+    case ground = 4
+    case enemy = 8
+    case beer = 16
+    case oil = 32
+}
+
+class GameScene: SKScene, SKPhysicsContactDelegate {
     
     let player = Player()
     let cam = SKCameraNode()
@@ -76,6 +85,9 @@ class GameScene: SKScene {
         
         // Set position of first encounter
         encounterManager.encounters[0].position = CGPoint(x: 2000, y: 200)
+        
+        // inform GameScene of contact events
+        self.physicsWorld.contactDelegate = self
     }
     
     override func didSimulatePhysics() {
@@ -169,7 +181,7 @@ class GameScene: SKScene {
         
         
         // Unwrap the accelerometer data optional
-        if let accelData = self.motionManager.accelerometerData {
+        if let accelData = self.motionManager.accelerometerData, player.health > 0 {
             var forceAmount: CGFloat
             //var movement = CGVector()
             
@@ -192,22 +204,67 @@ class GameScene: SKScene {
             
             switch accelY {
             case 0.05 ... 0.15:
-                player.physicsBody?.velocity.dx += forceAmount / 2
-            case -0.15 ... -0.05:
-                player.physicsBody?.velocity.dx -= forceAmount / 2
-            case _ where accelY > 0.15 :
                 player.physicsBody?.velocity.dx += forceAmount
+            case -0.15 ... -0.05:
+                player.physicsBody?.velocity.dx += 0
+            case _ where accelY > 0.15 :
+                player.physicsBody?.velocity.dx += forceAmount * 2
             case _ where accelY < -0.15:
-                player.physicsBody?.velocity.dx -= forceAmount
+                player.physicsBody?.velocity.dx += 0
             default:
                 break
             }
         }
         
         // Turn justone into the landing position upon landing
+        // If justone is dead, slowly decrease his velocity to 0
         if player.physicsBody!.velocity.dy == CGFloat(0) {
             let rotateUp = SKAction.rotate(toAngle: 0, duration: 0.475)
             player.run(rotateUp)
+            
+            if player.health <= 0, player.forwardVelocity > 0 {
+                player.forwardVelocity -= 5
+            } else if player.forwardVelocity <= 0 {
+                player.forwardVelocity = 0
+            }
+        }
+    }
+    
+    func didBegin(_ contact: SKPhysicsContact) {
+        // Each contact has two bodies
+        // Which is which is unknown
+        // Find justone's body first, then use the other body
+        // to determine the type of contact
+        let otherBody: SKPhysicsBody
+        
+        // Combine the two physics categories into one bitmask
+        // using the bitwise OR operator |
+        let justoneMask = PhysicsCategory.justone.rawValue | PhysicsCategory.damagedJustone.rawValue
+        
+        // Use the bitwise AND operator & to find justone
+        // This returns a positive number if body A's category
+        // is the same as either justone or damagedJustone
+        if contact.bodyA.categoryBitMask & justoneMask > 0 {
+            // bodyA is justone, test bodyB's type
+            otherBody = contact.bodyB
+        } else {
+            // bodyB is justone, test bodyA's type
+            otherBody = contact.bodyA
+        }
+        
+        // Find the type of contact
+        switch otherBody.categoryBitMask {
+        case PhysicsCategory.ground.rawValue:
+            print("hit the ground")
+        case PhysicsCategory.enemy.rawValue:
+            print("take damage")
+            player.takeDamage()
+        case PhysicsCategory.beer.rawValue:
+            print("grab a beer")
+        case PhysicsCategory.oil.rawValue:
+            print("collect oil")
+        default:
+            print("Contact with no game logic")
         }
     }
 }

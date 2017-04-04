@@ -30,6 +30,8 @@ class Beer: SKSpriteNode, GameSprite {
         let rectSize = CGSize(width: labatt.size.width / 10, height: labatt.size.height / 6)
         self.physicsBody = SKPhysicsBody(rectangleOf: rectSize)
         self.physicsBody?.affectedByGravity = false
+        self.physicsBody?.categoryBitMask = PhysicsCategory.beer.rawValue
+        self.physicsBody?.collisionBitMask = 0
     }
     
     // A function to turn a labatt blue into a molson

@@ -26,6 +26,8 @@ class Trump: SKSpriteNode, GameSprite {
         super.init(texture: nil, color: .clear, size: initialSize)
         self.physicsBody = SKPhysicsBody(circleOfRadius: size.width / 3)
         self.physicsBody?.affectedByGravity = false
+        self.physicsBody?.categoryBitMask = PhysicsCategory.enemy.rawValue
+        self.physicsBody?.collisionBitMask = ~PhysicsCategory.damagedJustone.rawValue & ~PhysicsCategory.beer.rawValue
         createAnimations()
         self.run(trumpAnimation)
     }

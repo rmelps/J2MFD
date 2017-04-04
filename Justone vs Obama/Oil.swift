@@ -31,10 +31,12 @@ class Oil: SKSpriteNode, GameSprite {
         // Assign a physics body
         self.physicsBody = SKPhysicsBody(circleOfRadius: size.width / 3)
         self.physicsBody?.affectedByGravity = false
+        self.physicsBody?.categoryBitMask = PhysicsCategory.oil.rawValue
         
         // Create our oil animation and start it
         createAnimations()
         self.run(pulseAnimation)
+        
     }
     
     func createAnimations() {
