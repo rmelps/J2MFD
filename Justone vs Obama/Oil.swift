@@ -62,6 +62,32 @@ class Oil: SKSpriteNode, GameSprite {
         pulseAnimation = SKAction.repeatForever(pulseSequence)
     }
     
+    func collectOil() {
+        // Prevent further contact
+        self.physicsBody?.categoryBitMask = 0
+        
+        // Actions to perform when Oil makes contact
+        let shrinkAction = SKAction.scale(to: 0.1, duration: 0.3)
+        let fadeAction = SKAction.fadeAlpha(to: 0, duration: 0.3)
+        let collectAction = SKAction.group([
+            shrinkAction,
+            fadeAction
+            ])
+        
+        let resetAfterCollected = SKAction.run {
+            self.position.y += 3000
+            self.alpha = 1
+            self.xScale = 1
+            self.yScale = 1
+            self.physicsBody?.categoryBitMask = PhysicsCategory.oil.rawValue
+        }
+        let fullAction = SKAction.sequence([
+            collectAction,
+            resetAfterCollected
+            ])
+        self.run(fullAction)
+    }
+    
     func onTap() {
     }
 }

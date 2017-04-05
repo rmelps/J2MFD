@@ -29,16 +29,16 @@ class Player: SKSpriteNode, GameSprite {
     
     // The player will be able to take 3 hits before the game is over
     var health: Int = 3
-    // Keep track of when the player is invulnerable
-    var invulnerable = false
+    
     // Keep track of when the player is newly damaged
     var damaged = false
     // Properties to store animations when the player takes damage or dies
     var damageAnimation = SKAction()
     var dieAnimation = SKAction()
+    var outOfFuelAnimation = SKAction()
     
     // Stop forward velocity if the player dies, so store it as a property
-    var forwardVelocity: CGFloat = 300
+    var forwardVelocity: CGFloat = 350
     
     required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
@@ -186,14 +186,17 @@ class Player: SKSpriteNode, GameSprite {
         
         // *******Create the die animation*******
         self.dieAnimation = SKAction.colorize(with: .red, colorBlendFactor: 0.7, duration: 1.0)
+        
+        // ******* Create the out of fuel animation *******
+        self.outOfFuelAnimation = SKAction.colorize(with: .black, colorBlendFactor: 0.5, duration: 1.0)
     }
     
     func onTap() {
         
     }
     
-    func startFlying() {
-        if self.health <= 0 {
+    func startFlying(fuelLevel: Int) {
+        if self.health <= 0 || fuelLevel <= 0 {
             return
         }
         self.removeAction(forKey: "soarAnimation")
@@ -201,8 +204,8 @@ class Player: SKSpriteNode, GameSprite {
         self.engineRotating = true
     }
     
-    func stopFlying() {
-        if self.health <= 0 {
+    func stopFlying(fuelLevel: Int) {
+        if self.health <= 0 || fuelLevel <= 0 {
             return
         }
         self.removeAction(forKey: "flyAnimation")
@@ -212,7 +215,7 @@ class Player: SKSpriteNode, GameSprite {
     
     func takeDamage() {
         // If invulnerable or damaged, return:
-        if self.invulnerable || self.damaged {
+        if self.damaged {
             return
         }
         // Set the damaged indicator to true after being hit
@@ -223,20 +226,26 @@ class Player: SKSpriteNode, GameSprite {
         
         if self.health == 0 {
             // If out of health, run the die function
-            die()
+            die(reason: .outOfHealth)
         } else {
             // Run the take damage animation
             self.run(self.damageAnimation)
         }
     }
     
-    func die() {
+    func die(reason: GameOver) {
         // Make sure the player is fully visible
         self.alpha = 1
         // Remove all animations
         self.removeAllActions()
         // Run the die animation
-        self.run(dieAnimation)
+        
+        switch reason {
+        case .outOfFuel:
+            self.run(outOfFuelAnimation)
+        case .outOfHealth:
+            self.run(dieAnimation)
+        }
         // prevent any further upward movement
         self.engineRotating = false
     }

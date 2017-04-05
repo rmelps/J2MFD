@@ -19,6 +19,11 @@ enum PhysicsCategory: UInt32 {
     case oil = 32
 }
 
+enum GameOver {
+    case outOfFuel
+    case outOfHealth
+}
+
 class GameScene: SKScene, SKPhysicsContactDelegate {
     
     let player = Player()
@@ -32,6 +37,13 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     var nextEncounterSpawnPosition: CGFloat = 150
     var increaseXCamDiff: CGFloat = 0
     let oilCan = Oil()
+    var beersCollected: Int =  0
+    
+    // Fuel related parameters
+    let distancePerPercent: Int = 1000
+    var fuelPercent: Int = 100
+    var fuelCounter = Int()
+    
     
     override func didMove(to view: SKView) {
         super.didMove(to: view)
@@ -88,6 +100,9 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         
         // inform GameScene of contact events
         self.physicsWorld.contactDelegate = self
+        
+        // Initialize fuelCounter
+        fuelCounter = distancePerPercent
     }
     
     override func didSimulatePhysics() {
@@ -123,6 +138,18 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         // Keep track of how far the player has flown
         playerProgress = player.position.x - initialPlayerPosition.x
         
+        // Keep track of the fuel usage
+        if Int(playerProgress) > fuelCounter {
+            fuelPercent -= 1
+            fuelCounter += distancePerPercent
+            print(fuelPercent)
+        }
+        
+        if fuelPercent == 0 {
+            player.die(reason: .outOfFuel)
+            fuelPercent = -1
+        }
+        
         // Check to see if the ground should jump forward
         ground.checkForReposition(playerprogress: playerProgress)
         
@@ -135,10 +162,11 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             let oilChance = Int(arc4random_uniform(10))
             if oilChance == 0 {
                 // Only move the can if it is off the screen
-                if abs(player.position.x - oilCan.position.x) > 1200 {
+                if abs(player.position.x - oilCan.position.x) > 1000 {
                     // Y Position 50 - 450
                     let randomYPos = 50 + CGFloat(arc4random_uniform(400))
-                    oilCan.position = CGPoint(x: nextEncounterSpawnPosition, y: randomYPos)
+                    let randomXOffset = 50 + CGFloat(arc4random_uniform(150))
+                    oilCan.position = CGPoint(x: nextEncounterSpawnPosition - randomXOffset, y: randomYPos)
                     // Remove any previous velocity and spin
                     oilCan.physicsBody?.angularVelocity = 0
                     oilCan.physicsBody?.velocity = CGVector.zero
@@ -165,23 +193,22 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             }
         }
         
-        player.startFlying()
+        player.startFlying(fuelLevel: fuelPercent)
     }
     
     override func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent?) {
-        player.stopFlying()
+        player.stopFlying(fuelLevel: fuelPercent)
     }
     
     override func touchesCancelled(_ touches: Set<UITouch>, with event: UIEvent?) {
-        player.stopFlying()
+        player.stopFlying(fuelLevel: fuelPercent)
     }
     
     override func update(_ currentTime: TimeInterval) {
         player.update()
         
-        
         // Unwrap the accelerometer data optional
-        if let accelData = self.motionManager.accelerometerData, player.health > 0 {
+        if let accelData = self.motionManager.accelerometerData, player.health > 0, fuelPercent > 0 {
             var forceAmount: CGFloat
             //var movement = CGVector()
             
@@ -203,14 +230,14 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             let accelY = accelData.acceleration.y
             
             switch accelY {
-            case 0.05 ... 0.15:
+            case _ where accelY > 0.0 && accelY < 0.05:
+                player.physicsBody?.velocity.dx += forceAmount / 2
+            case _ where accelY > 0.05 && accelY < 0.10:
                 player.physicsBody?.velocity.dx += forceAmount
-            case -0.15 ... -0.05:
-                player.physicsBody?.velocity.dx += 0
+            case _ where accelY > 0.10 && accelY < 0.15:
+                player.physicsBody?.velocity.dx += forceAmount * 1.5
             case _ where accelY > 0.15 :
                 player.physicsBody?.velocity.dx += forceAmount * 2
-            case _ where accelY < -0.15:
-                player.physicsBody?.velocity.dx += 0
             default:
                 break
             }
@@ -222,7 +249,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             let rotateUp = SKAction.rotate(toAngle: 0, duration: 0.475)
             player.run(rotateUp)
             
-            if player.health <= 0, player.forwardVelocity > 0 {
+            if (player.health <= 0 || fuelPercent <= 0) , player.forwardVelocity > 0 {
                 player.forwardVelocity -= 5
             } else if player.forwardVelocity <= 0 {
                 player.forwardVelocity = 0
@@ -257,12 +284,26 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         case PhysicsCategory.ground.rawValue:
             print("hit the ground")
         case PhysicsCategory.enemy.rawValue:
-            print("take damage")
             player.takeDamage()
         case PhysicsCategory.beer.rawValue:
-            print("grab a beer")
+            // Try to cast the otherBody's node as a Beer
+            if let beer = otherBody.node as? Beer {
+                // Invoke the collect animation
+                beer.collect()
+                // Add the value of the coin to our counter:
+                self.beersCollected += beer.value
+                print(self.beersCollected)
+            }
         case PhysicsCategory.oil.rawValue:
             print("collect oil")
+            oilCan.collectOil()
+            
+            // Fill up the tank
+            self.fuelPercent += 25
+            
+            if self.fuelPercent > 100 {
+                self.fuelPercent = 100
+            }
         default:
             print("Contact with no game logic")
         }
