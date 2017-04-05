@@ -27,6 +27,7 @@ enum GameOver {
 class GameScene: SKScene, SKPhysicsContactDelegate {
     
     let player = Player()
+    let hud = HUD()
     let cam = SKCameraNode()
     let ground = Ground()
     let motionManager = CMMotionManager()
@@ -38,6 +39,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     var increaseXCamDiff: CGFloat = 0
     let oilCan = Oil()
     var beersCollected: Int =  0
+    var initialHealth = Int()
     
     // Fuel related parameters
     let distancePerPercent: Int = 1000
@@ -103,6 +105,18 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         
         // Initialize fuelCounter
         fuelCounter = distancePerPercent
+        
+        // Add the camera itself to the scene's node tree
+        self.addChild(self.camera!)
+        
+        // Position the camera node above the game elements
+        self.camera!.zPosition = 50
+        
+        // Create the HUDs child nodes
+        hud.createHudNodes(screenSize: self.size)
+        
+        // Add the HUD to camera node's tree
+        self.camera?.addChild(hud)
     }
     
     override func didSimulatePhysics() {
@@ -142,6 +156,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         if Int(playerProgress) > fuelCounter {
             fuelPercent -= 1
             fuelCounter += distancePerPercent
+            hud.setOilDisplay(fuelLevel: fuelPercent)
             print(fuelPercent)
         }
         
@@ -210,7 +225,6 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         // Unwrap the accelerometer data optional
         if let accelData = self.motionManager.accelerometerData, player.health > 0, fuelPercent > 0 {
             var forceAmount: CGFloat
-            //var movement = CGVector()
             
             // Based on the device orientation, the tilt number can indicate
             // opposite user desires. The UIApplication class exposes an enum
@@ -285,6 +299,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             print("hit the ground")
         case PhysicsCategory.enemy.rawValue:
             player.takeDamage()
+            hud.setHealthDisplay(newHealth: player.health)
         case PhysicsCategory.beer.rawValue:
             // Try to cast the otherBody's node as a Beer
             if let beer = otherBody.node as? Beer {
@@ -292,10 +307,10 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                 beer.collect()
                 // Add the value of the coin to our counter:
                 self.beersCollected += beer.value
+                hud.setBeerCountDisplay(newBeerCount: self.beersCollected)
                 print(self.beersCollected)
             }
         case PhysicsCategory.oil.rawValue:
-            print("collect oil")
             oilCan.collectOil()
             
             // Fill up the tank
@@ -304,6 +319,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             if self.fuelPercent > 100 {
                 self.fuelPercent = 100
             }
+            hud.setOilDisplay(fuelLevel: fuelPercent)
         default:
             print("Contact with no game logic")
         }

@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		9599D0661E955801002329CE /* HUD.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9599D0651E955801002329CE /* HUD.swift */; };
 		95ED49EA1E836DD9001BA89D /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95ED49E91E836DD9001BA89D /* AppDelegate.swift */; };
 		95ED49EC1E836DD9001BA89D /* GameScene.sks in Resources */ = {isa = PBXBuildFile; fileRef = 95ED49EB1E836DD9001BA89D /* GameScene.sks */; };
 		95ED49EE1E836DD9001BA89D /* Actions.sks in Resources */ = {isa = PBXBuildFile; fileRef = 95ED49ED1E836DD9001BA89D /* Actions.sks */; };
@@ -29,6 +30,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		9599D0651E955801002329CE /* HUD.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HUD.swift; sourceTree = "<group>"; };
 		95ED49E61E836DD9001BA89D /* Justone vs Obama.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Justone vs Obama.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		95ED49E91E836DD9001BA89D /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		95ED49EB1E836DD9001BA89D /* GameScene.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = GameScene.sks; sourceTree = "<group>"; };
@@ -90,6 +92,7 @@
 				95ED4A0B1E89EE18001BA89D /* Player.swift */,
 				95ED4A051E89DB71001BA89D /* GameSprite.swift */,
 				95ED4A071E89DBFF001BA89D /* Obama.swift */,
+				9599D0651E955801002329CE /* HUD.swift */,
 				95ED4A0D1E8E7D4D001BA89D /* Oil.swift */,
 				95ED4A0F1E8E81F2001BA89D /* Trump.swift */,
 				95ED4A111E8E92DD001BA89D /* Beer.swift */,
@@ -201,6 +204,7 @@
 				95ED49EA1E836DD9001BA89D /* AppDelegate.swift in Sources */,
 				95ED4A121E8E92DD001BA89D /* Beer.swift in Sources */,
 				95ED4A101E8E81F2001BA89D /* Trump.swift in Sources */,
+				9599D0661E955801002329CE /* HUD.swift in Sources */,
 				95ED4A171E8EAA4C001BA89D /* EncounterManager.swift in Sources */,
 				95ED4A0E1E8E7D4D001BA89D /* Oil.swift in Sources */,
 			);
@@ -366,6 +370,7 @@
 				95ED4A001E836DD9001BA89D /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
