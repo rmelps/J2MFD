@@ -34,6 +34,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     var screenCenterY = CGFloat()
     let initialPlayerPosition = CGPoint(x: 150, y: 250)
     var playerProgress = CGFloat()
+    var backgrounds = [Background]()
     let encounterManager = EncounterManager()
     var nextEncounterSpawnPosition: CGFloat = 150
     var increaseXCamDiff: CGFloat = 0
@@ -117,6 +118,20 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         
         // Add the HUD to camera node's tree
         self.camera?.addChild(hud)
+        
+        // Instantiate three Backgrounds to the backgrounds array
+        for _ in 0..<3 {
+            backgrounds.append(Background())
+        }
+        // Spawn the new backgrounds
+        backgrounds[0].spawn(parentNode: self, imageName: "front", zPosition: -5, movementMultiplier: 0.75)
+        backgrounds[1].spawn(parentNode: self, imageName: "middle", zPosition: -10, movementMultiplier: 0.5)
+        backgrounds[2].spawn(parentNode: self, imageName: "back", zPosition: -15, movementMultiplier: 0.2)
+        
+        // Further adjust backgrounds for perfection
+        backgrounds[1].position = CGPoint(x: 0, y: 20)
+        backgrounds[2].position = CGPoint(x: 0, y: 40)
+        
     }
     
     override func didSimulatePhysics() {
@@ -187,6 +202,10 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                     oilCan.physicsBody?.velocity = CGVector.zero
                 }
             }
+        }
+        // Position the backgrounds
+        for background in self.backgrounds {
+            background.updatePosition(playerProgress: playerProgress)
         }
 
     }
