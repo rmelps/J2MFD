@@ -15,6 +15,7 @@ class Trump: SKSpriteNode, GameSprite {
     var initialSize = CGSize()
     var textureAtlas: SKTextureAtlas = SKTextureAtlas(named: "Enemies")
     var trumpAnimation = SKAction()
+    let trumpEmitter = SKEmitterNode(fileNamed: "HeadEmitter")
     
     required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
@@ -26,7 +27,7 @@ class Trump: SKSpriteNode, GameSprite {
         super.init(texture: nil, color: .clear, size: initialSize)
         self.physicsBody = SKPhysicsBody(circleOfRadius: size.width / 3)
         self.physicsBody?.affectedByGravity = false
-        self.physicsBody?.categoryBitMask = PhysicsCategory.enemy.rawValue
+        self.physicsBody?.categoryBitMask = PhysicsCategory.trump.rawValue
         self.physicsBody?.collisionBitMask = ~PhysicsCategory.damagedJustone.rawValue & ~PhysicsCategory.beer.rawValue
         createAnimations()
         self.run(trumpAnimation)

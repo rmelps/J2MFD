@@ -34,7 +34,7 @@ class Obama: SKSpriteNode, GameSprite {
         // Attach a physics body, shaped like a circle
         self.physicsBody = SKPhysicsBody(circleOfRadius: size.width / 2)
         self.physicsBody?.affectedByGravity = false
-        self.physicsBody?.categoryBitMask = PhysicsCategory.enemy.rawValue
+        self.physicsBody?.categoryBitMask = PhysicsCategory.obama.rawValue
         self.physicsBody?.collisionBitMask = ~PhysicsCategory.damagedJustone.rawValue & ~PhysicsCategory.beer.rawValue
     }
     

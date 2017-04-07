@@ -69,7 +69,7 @@ class Player: SKSpriteNode, GameSprite {
         self.physicsBody?.allowsRotation = false
         
         self.physicsBody?.categoryBitMask = PhysicsCategory.justone.rawValue
-        self.physicsBody?.contactTestBitMask = PhysicsCategory.enemy.rawValue | PhysicsCategory.ground.rawValue | PhysicsCategory.oil.rawValue | PhysicsCategory.beer.rawValue
+        self.physicsBody?.contactTestBitMask = PhysicsCategory.trump.rawValue | PhysicsCategory.obama.rawValue | PhysicsCategory.ground.rawValue | PhysicsCategory.oil.rawValue | PhysicsCategory.beer.rawValue
         self.physicsBody?.collisionBitMask = PhysicsCategory.ground.rawValue
     }
     
@@ -230,10 +230,10 @@ class Player: SKSpriteNode, GameSprite {
             smokeColor = UIColor(white: 0, alpha: 1.0)
             smokeEmitter?.xAcceleration = -50
             smokeEmitter?.yAcceleration = 0
+            smokeEmitter?.emissionAngle = fireEmitter!.emissionAngle
         case 1:
             smokeColor = UIColor(white: 0, alpha: 0.9)
             smokeEmitter?.particlePositionRange.dx = 25
-            //fireEmitter?.particleBirthRate = 500
             smokeEmitter?.particleBirthRate += 100
         case 2:
             smokeColor = UIColor(white: 0, alpha: 0.7)

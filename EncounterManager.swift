@@ -102,6 +102,8 @@ class EncounterManager {
                 // Reset the rotation of the sprite
                 spriteNode.zRotation = 0
                 
+                spriteNode.removeAllChildren()
+                
                 if let initialPositionVal = spriteNode.userData?.value(forKey: "initialPosition") as? NSValue {
                     // Reset the position of the sprite
                     spriteNode.position = initialPositionVal.cgPointValue

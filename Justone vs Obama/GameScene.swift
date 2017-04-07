@@ -14,9 +14,11 @@ enum PhysicsCategory: UInt32 {
     case justone = 1
     case damagedJustone = 2
     case ground = 4
-    case enemy = 8
-    case beer = 16
-    case oil = 32
+    case obama = 8
+    case trump = 16
+    case beer = 32
+    case oil = 64
+    
 }
 
 enum GameOver {
@@ -43,8 +45,10 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     var initialHealth = Int()
     
     // Particle Emitters
-    var smokeEmitter = SKEmitterNode(fileNamed: "JustoneSmokePath")
-    var fireEmitter = SKEmitterNode(fileNamed: "JustoneFirePath")
+    let smokeEmitter = SKEmitterNode(fileNamed: "JustoneSmokePath")
+    let fireEmitter = SKEmitterNode(fileNamed: "JustoneFirePath")
+    let trumpEmitter = SKEmitterNode(fileNamed: "HeadEmitter")
+    let obamaEmitter = SKEmitterNode(fileNamed: "HeadEmitter")
     
     // Fuel related parameters
     let distancePerPercent: Int = 1000
@@ -155,7 +159,6 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             fireEmitter?.targetNode = self
             fireEmitter?.particleBirthRate = 0
         }
-        
     }
     
     override func didSimulatePhysics() {
@@ -265,12 +268,12 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     override func update(_ currentTime: TimeInterval) {
         player.update()
         
-        // If health is low, make flying harder by adding random value dy impulses
+        // If health is low, make flying harder by adding random value dY impulses
         if player.health == 1 {
             let bound: UInt32 = 1000
             addRandomImpulse(bound: bound)
             if Int(fireEmitter!.particleBirthRate) < 450 {
-                fireEmitter?.particleBirthRate += 0.5
+                fireEmitter?.particleBirthRate += 0.3
             }
         }
         if player.health == 0, fireEmitter!.particleBirthRate < 1000 {
@@ -352,10 +355,28 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         switch otherBody.categoryBitMask {
         case PhysicsCategory.ground.rawValue:
             print("hit the ground")
-        case PhysicsCategory.enemy.rawValue:
+        case PhysicsCategory.trump.rawValue:
+            if !player.damaged {
+                let trumpEmitter = SKEmitterNode(fileNamed: "HeadEmitter")
+                trumpEmitter?.particleTexture = SKTexture(imageNamed: "TrumpClosed")
+                enemyEmitter(emitter: trumpEmitter!, location: otherBody)
+                
+            }
             player.takeDamage(smokeEmitter: self.smokeEmitter, fireEmitter: self.fireEmitter)
             hud.setHealthDisplay(newHealth: player.health)
-            
+        case PhysicsCategory.obama.rawValue:
+            if !player.damaged {
+                let obamaEmitter = SKEmitterNode(fileNamed: "HeadEmitter")
+                obamaEmitter?.particleTexture = SKTexture(imageNamed: "Obama")
+                enemyEmitter(emitter: obamaEmitter!, location: otherBody)
+                
+                // Move the node out of sight
+                let currentXPos = otherBody.node?.position.x
+                let currentYPos = otherBody.node?.position.y
+                otherBody.node?.position = CGPoint(x: currentXPos!, y: currentYPos! + 3000)
+            }
+            player.takeDamage(smokeEmitter: self.smokeEmitter, fireEmitter: self.fireEmitter)
+            hud.setHealthDisplay(newHealth: player.health)
         case PhysicsCategory.beer.rawValue:
             // Try to cast the otherBody's node as a Beer
             if let beer = otherBody.node as? Beer {
@@ -383,7 +404,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     
     func addRandomImpulse(bound: UInt32) {
         let direction: Bool
-        let randomImpulseValue = CGFloat(arc4random_uniform(bound)) + 1000
+        let randomImpulseValue = CGFloat(arc4random_uniform(bound)) + 3000
         
         if Int(randomImpulseValue) % 2 == 0 {
             direction = true
@@ -398,5 +419,19 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                 player.physicsBody?.applyImpulse(CGVector(dx: 0, dy: -randomImpulseValue))
             }
         }
+    }
+    
+    func enemyEmitter(emitter: SKEmitterNode, location: SKPhysicsBody) {
+        
+        let xCenter = emitter.particleTexture!.textureRect().midX
+        let yCenter = emitter.particleTexture!.textureRect().midY
+        
+        //let xCenter1 = location.node!.position.x
+        //let yCenter1 = location.node!.position.y
+        
+        emitter.particleZPosition = 12
+        emitter.position = CGPoint(x: xCenter, y: yCenter)
+        location.node!.addChild(emitter)
+        emitter.targetNode = self
     }
 }

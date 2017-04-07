@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		955472F61E96F4DC00813B5E /* JustoneFirePath.sks in Resources */ = {isa = PBXBuildFile; fileRef = 955472F41E96F4DC00813B5E /* JustoneFirePath.sks */; };
 		955472F71E96F4DC00813B5E /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 955472F51E96F4DC00813B5E /* Assets.xcassets */; };
+		955472FF1E97EFC200813B5E /* HeadEmitter.sks in Resources */ = {isa = PBXBuildFile; fileRef = 955472FE1E97EFC200813B5E /* HeadEmitter.sks */; };
 		9599D0661E955801002329CE /* HUD.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9599D0651E955801002329CE /* HUD.swift */; };
 		9599D0681E95AFAF002329CE /* Background.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9599D0671E95AFAF002329CE /* Background.swift */; };
 		95C03CD31E96E48900C1EF98 /* JustoneSmokePath.sks in Resources */ = {isa = PBXBuildFile; fileRef = 95C03CD21E96E48900C1EF98 /* JustoneSmokePath.sks */; };
@@ -36,6 +37,7 @@
 /* Begin PBXFileReference section */
 		955472F41E96F4DC00813B5E /* JustoneFirePath.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; name = JustoneFirePath.sks; path = ../JustoneFirePath.sks; sourceTree = "<group>"; };
 		955472F51E96F4DC00813B5E /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		955472FE1E97EFC200813B5E /* HeadEmitter.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = HeadEmitter.sks; sourceTree = "<group>"; };
 		9599D0651E955801002329CE /* HUD.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HUD.swift; sourceTree = "<group>"; };
 		9599D0671E95AFAF002329CE /* Background.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Background.swift; sourceTree = "<group>"; };
 		95C03CD21E96E48900C1EF98 /* JustoneSmokePath.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = JustoneSmokePath.sks; sourceTree = "<group>"; };
@@ -98,6 +100,7 @@
 				9599D0671E95AFAF002329CE /* Background.swift */,
 				95C03CD21E96E48900C1EF98 /* JustoneSmokePath.sks */,
 				955472F41E96F4DC00813B5E /* JustoneFirePath.sks */,
+				955472FE1E97EFC200813B5E /* HeadEmitter.sks */,
 				95ED49EB1E836DD9001BA89D /* GameScene.sks */,
 				95ED49ED1E836DD9001BA89D /* Actions.sks */,
 				95ED49EF1E836DD9001BA89D /* GameScene.swift */,
@@ -191,6 +194,7 @@
 			files = (
 				95ED4A191E8EB3B5001BA89D /* EncounterB.sks in Resources */,
 				95ED49F51E836DD9001BA89D /* Main.storyboard in Resources */,
+				955472FF1E97EFC200813B5E /* HeadEmitter.sks in Resources */,
 				955472F71E96F4DC00813B5E /* Assets.xcassets in Resources */,
 				95ED49EC1E836DD9001BA89D /* GameScene.sks in Resources */,
 				95ED4A1B1E8EB46F001BA89D /* EncounterC.sks in Resources */,
