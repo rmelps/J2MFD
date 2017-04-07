@@ -213,7 +213,7 @@ class Player: SKSpriteNode, GameSprite {
         self.engineRotating = false
     }
     
-    func takeDamage() {
+    func takeDamage(smokeEmitter: SKEmitterNode?, fireEmitter: SKEmitterNode?) {
         // If invulnerable or damaged, return:
         if self.damaged {
             return
@@ -223,6 +223,30 @@ class Player: SKSpriteNode, GameSprite {
         
         // Remove one from the health pool
         self.health -= 1
+        
+        var smokeColor = UIColor()
+        switch self.health {
+        case 0:
+            smokeColor = UIColor(white: 0, alpha: 1.0)
+            smokeEmitter?.xAcceleration = -50
+            smokeEmitter?.yAcceleration = 0
+        case 1:
+            smokeColor = UIColor(white: 0, alpha: 0.9)
+            smokeEmitter?.particlePositionRange.dx = 25
+            //fireEmitter?.particleBirthRate = 500
+            smokeEmitter?.particleBirthRate += 100
+        case 2:
+            smokeColor = UIColor(white: 0, alpha: 0.7)
+            smokeEmitter?.alpha += 0.5
+            smokeEmitter?.particleBirthRate += 50
+        default:
+            return
+        }
+        smokeEmitter?.particleColorSequence = nil
+        smokeEmitter?.particleColorBlendFactor = 1
+        smokeEmitter?.particleColor = smokeColor
+        
+        smokeEmitter?.particleSize = CGSize(width: smokeEmitter!.particleSize.width + 10, height: smokeEmitter!.particleSize.height + 10)
         
         if self.health == 0 {
             // If out of health, run the die function

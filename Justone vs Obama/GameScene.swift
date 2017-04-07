@@ -42,6 +42,10 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     var beersCollected: Int =  0
     var initialHealth = Int()
     
+    // Particle Emitters
+    var smokeEmitter = SKEmitterNode(fileNamed: "JustoneSmokePath")
+    var fireEmitter = SKEmitterNode(fileNamed: "JustoneFirePath")
+    
     // Fuel related parameters
     let distancePerPercent: Int = 1000
     var fuelPercent: Int = 100
@@ -131,6 +135,26 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         // Further adjust backgrounds for perfection
         backgrounds[1].position = CGPoint(x: 0, y: 20)
         backgrounds[2].position = CGPoint(x: 0, y: 40)
+        
+        
+        // Instantiate an SKEmitterNode with JustoneSmokePath's design
+        player.zPosition = 10
+        if (smokeEmitter != nil) {
+        // Place the particle zPosition behind the penguin
+        smokeEmitter?.particleZPosition = 11
+        smokeEmitter?.position = CGPoint(x: player.anchorPoint.x + 20, y: player.anchorPoint.y)
+        // add smokeEmitter to the player
+        player.addChild(smokeEmitter!)
+        smokeEmitter?.targetNode = self
+        }
+        // Add the fire emitter, but make it hidden
+        if (fireEmitter != nil) {
+            fireEmitter?.particleZPosition = 12
+            fireEmitter?.position = CGPoint(x: player.anchorPoint.x + 20, y: player.anchorPoint.y)
+            player.addChild(fireEmitter!)
+            fireEmitter?.targetNode = self
+            fireEmitter?.particleBirthRate = 0
+        }
         
     }
     
@@ -241,6 +265,18 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     override func update(_ currentTime: TimeInterval) {
         player.update()
         
+        // If health is low, make flying harder by adding random value dy impulses
+        if player.health == 1 {
+            let bound: UInt32 = 1000
+            addRandomImpulse(bound: bound)
+            if Int(fireEmitter!.particleBirthRate) < 450 {
+                fireEmitter?.particleBirthRate += 0.5
+            }
+        }
+        if player.health == 0, fireEmitter!.particleBirthRate < 1000 {
+            fireEmitter?.particleBirthRate += 0.5
+        }
+    
         // Unwrap the accelerometer data optional
         if let accelData = self.motionManager.accelerometerData, player.health > 0, fuelPercent > 0 {
             var forceAmount: CGFloat
@@ -317,8 +353,9 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         case PhysicsCategory.ground.rawValue:
             print("hit the ground")
         case PhysicsCategory.enemy.rawValue:
-            player.takeDamage()
+            player.takeDamage(smokeEmitter: self.smokeEmitter, fireEmitter: self.fireEmitter)
             hud.setHealthDisplay(newHealth: player.health)
+            
         case PhysicsCategory.beer.rawValue:
             // Try to cast the otherBody's node as a Beer
             if let beer = otherBody.node as? Beer {
@@ -341,6 +378,25 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             hud.setOilDisplay(fuelLevel: fuelPercent)
         default:
             print("Contact with no game logic")
+        }
+    }
+    
+    func addRandomImpulse(bound: UInt32) {
+        let direction: Bool
+        let randomImpulseValue = CGFloat(arc4random_uniform(bound)) + 1000
+        
+        if Int(randomImpulseValue) % 2 == 0 {
+            direction = true
+        } else {
+            direction = false
+        }
+        
+        if Int(player.position.x) % 10 == 0 {
+            if direction {
+                player.physicsBody?.applyImpulse(CGVector(dx: 0, dy: randomImpulseValue))
+            } else {
+                player.physicsBody?.applyImpulse(CGVector(dx: 0, dy: -randomImpulseValue))
+            }
         }
     }
 }
