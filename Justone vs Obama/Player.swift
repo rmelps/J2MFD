@@ -103,7 +103,7 @@ class Player: SKSpriteNode, GameSprite {
     }
     
     func createAnimations() {
-        let rotateUpAction = SKAction.rotate(toAngle: 0, duration: 0.475)
+        let rotateUpAction = SKAction.rotate(toAngle: 0.2, duration: 0.475)
         rotateUpAction.timingMode = .easeOut
         
         let rotateDownAction = SKAction.rotate(toAngle: -1, duration: 3)
@@ -208,7 +208,6 @@ class Player: SKSpriteNode, GameSprite {
         if self.health <= 0 || fuelLevel <= 0 {
             return
         }
-        self.removeAction(forKey: "flyAnimation")
         self.run(soarAnimation, withKey: "soarAnimation")
         self.engineRotating = false
     }

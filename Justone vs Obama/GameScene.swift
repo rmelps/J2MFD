@@ -234,6 +234,20 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         for background in self.backgrounds {
             background.updatePosition(playerProgress: playerProgress)
         }
+        
+        // Turn justone into the landing position upon landing
+        // If justone is dead, slowly decrease his velocity to 0
+        if player.physicsBody!.velocity.dy == CGFloat(0) {
+            let rotateUp = SKAction.rotate(toAngle: 0, duration: 0.475)
+            player.removeAction(forKey: "flyAnimation")
+            player.run(rotateUp)
+            
+            if (player.health <= 0 || fuelPercent <= 0) , player.forwardVelocity > 0 {
+                player.forwardVelocity -= 5
+            } else if player.forwardVelocity <= 0 {
+                player.forwardVelocity = 0
+            }
+        }
 
     }
     
@@ -314,19 +328,6 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                 break
             }
         }
-        
-        // Turn justone into the landing position upon landing
-        // If justone is dead, slowly decrease his velocity to 0
-        if player.physicsBody!.velocity.dy == CGFloat(0) {
-            let rotateUp = SKAction.rotate(toAngle: 0, duration: 0.475)
-            player.run(rotateUp)
-            
-            if (player.health <= 0 || fuelPercent <= 0) , player.forwardVelocity > 0 {
-                player.forwardVelocity -= 5
-            } else if player.forwardVelocity <= 0 {
-                player.forwardVelocity = 0
-            }
-        }
     }
     
     func didBegin(_ contact: SKPhysicsContact) {
@@ -404,7 +405,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     
     func addRandomImpulse(bound: UInt32) {
         let direction: Bool
-        let randomImpulseValue = CGFloat(arc4random_uniform(bound)) + 3000
+        let randomImpulseValue = CGFloat(arc4random_uniform(bound)) + 2000
         
         if Int(randomImpulseValue) % 2 == 0 {
             direction = true
