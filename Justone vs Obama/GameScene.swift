@@ -205,6 +205,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         if fuelPercent == 0 {
             player.die(reason: .outOfFuel)
             fuelPercent = -1
+            smokeEmitter?.xAcceleration = -50
         }
         
         // Check to see if the ground should jump forward
