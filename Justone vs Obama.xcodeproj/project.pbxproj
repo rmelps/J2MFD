@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		955426061E9C0C340028AAD4 /* MenuScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = 955426051E9C0C340028AAD4 /* MenuScene.swift */; };
 		955472F61E96F4DC00813B5E /* JustoneFirePath.sks in Resources */ = {isa = PBXBuildFile; fileRef = 955472F41E96F4DC00813B5E /* JustoneFirePath.sks */; };
 		955472F71E96F4DC00813B5E /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 955472F51E96F4DC00813B5E /* Assets.xcassets */; };
 		955472FF1E97EFC200813B5E /* HeadEmitter.sks in Resources */ = {isa = PBXBuildFile; fileRef = 955472FE1E97EFC200813B5E /* HeadEmitter.sks */; };
@@ -35,6 +36,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		955426051E9C0C340028AAD4 /* MenuScene.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MenuScene.swift; sourceTree = "<group>"; };
 		955472F41E96F4DC00813B5E /* JustoneFirePath.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; name = JustoneFirePath.sks; path = ../JustoneFirePath.sks; sourceTree = "<group>"; };
 		955472F51E96F4DC00813B5E /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		955472FE1E97EFC200813B5E /* HeadEmitter.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = HeadEmitter.sks; sourceTree = "<group>"; };
@@ -115,6 +117,7 @@
 				95ED49F11E836DD9001BA89D /* GameViewController.swift */,
 				95ED49F31E836DD9001BA89D /* Main.storyboard */,
 				95ED49F61E836DD9001BA89D /* Assets.xcassets */,
+				955426051E9C0C340028AAD4 /* MenuScene.swift */,
 				95ED49F81E836DD9001BA89D /* LaunchScreen.storyboard */,
 				95ED49FB1E836DD9001BA89D /* Info.plist */,
 			);
@@ -217,6 +220,7 @@
 				95ED4A0A1E89E341001BA89D /* Ground.swift in Sources */,
 				95ED4A081E89DBFF001BA89D /* Obama.swift in Sources */,
 				95ED4A061E89DB71001BA89D /* GameSprite.swift in Sources */,
+				955426061E9C0C340028AAD4 /* MenuScene.swift in Sources */,
 				95ED49F01E836DD9001BA89D /* GameScene.swift in Sources */,
 				95ED4A0C1E89EE18001BA89D /* Player.swift in Sources */,
 				95ED49F21E836DD9001BA89D /* GameViewController.swift in Sources */,
