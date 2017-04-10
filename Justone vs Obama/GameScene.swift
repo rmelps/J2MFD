@@ -58,6 +58,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     
     override func didMove(to view: SKView) {
         super.didMove(to: view)
+        self.view?.showsFPS = true
         // Position from the lower left corner
         self.anchorPoint = .zero
         // Set the scene's background to a nice sky blue
@@ -205,7 +206,11 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         if fuelPercent == 0 {
             player.die(reason: .outOfFuel)
             fuelPercent = -1
-            smokeEmitter?.xAcceleration = -50
+            smokeEmitter?.emissionAngle = fireEmitter!.emissionAngle
+            
+            if fireEmitter?.particleBirthRate == 0 {
+                smokeEmitter?.particleBirthRate = 0
+            }
         }
         
         // Check to see if the ground should jump forward
@@ -435,5 +440,10 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         emitter.position = CGPoint(x: xCenter, y: yCenter)
         location.node!.addChild(emitter)
         emitter.targetNode = self
+    }
+    
+    func gameOver() {
+        // Show the menu and restart buttons
+        hud.showButtons()
     }
 }

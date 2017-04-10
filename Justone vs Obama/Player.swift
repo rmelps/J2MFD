@@ -100,6 +100,8 @@ class Player: SKSpriteNode, GameSprite {
         // Set a constant velocity to the right
        self.physicsBody?.velocity.dx = self.forwardVelocity
         
+        
+        
     }
     
     func createAnimations() {
@@ -227,7 +229,7 @@ class Player: SKSpriteNode, GameSprite {
         switch self.health {
         case 0:
             smokeColor = UIColor(white: 0, alpha: 1.0)
-            smokeEmitter?.xAcceleration = -50
+            smokeEmitter?.xAcceleration = fireEmitter!.xAcceleration
             smokeEmitter?.yAcceleration = 0
             smokeEmitter?.emissionAngle = fireEmitter!.emissionAngle
         case 1:
@@ -271,5 +273,10 @@ class Player: SKSpriteNode, GameSprite {
         }
         // prevent any further upward movement
         self.engineRotating = false
+        
+        // Alert the GameScene
+        if let gameScene = self.parent as? GameScene {
+            gameScene.gameOver()
+        }
     }
 }

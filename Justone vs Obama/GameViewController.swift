@@ -11,30 +11,6 @@ import SpriteKit
 import GameplayKit
 
 class GameViewController: UIViewController {
-
-    /*
-    override func viewDidLayoutSubviews() {
-        super.viewDidLayoutSubviews()
-        
-        if let view = self.view as! SKView? {
-            // Load the SKScene from 'GameScene.sks'
-            
-            if let scene = SKScene(fileNamed: "GameScene") {
-                
-                // Set the scale mode fit the window:
-                scene.scaleMode = .aspectFill
-                // Size our scene to fit the view exactly:
-                scene.size = view.bounds.size
-                // Show the new scene
-                view.presentScene(scene)
-            }
-            
-            view.ignoresSiblingOrder = true
-            view.showsFPS = true
-            view.showsNodeCount = true
-        }
-    }
- */
     
     override func viewWillLayoutSubviews() {
         super.viewWillLayoutSubviews()
