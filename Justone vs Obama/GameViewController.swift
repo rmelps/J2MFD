@@ -9,8 +9,11 @@
 import UIKit
 import SpriteKit
 import GameplayKit
+import AVFoundation
 
 class GameViewController: UIViewController {
+    
+    var musicPlayer = AVAudioPlayer()
     
     override func viewWillLayoutSubviews() {
         super.viewWillLayoutSubviews()
@@ -23,6 +26,20 @@ class GameViewController: UIViewController {
         menuScene.size = view.bounds.size
         // Show the menu
         skView.presentScene(menuScene)
+        
+        // Start the background music
+        if let musicPath = Bundle.main.path(forResource: "Sound/TheSafetyDance", ofType: "mp3") {
+            let url = URL(fileURLWithPath: musicPath)
+            do {
+                musicPlayer = try AVAudioPlayer(contentsOf: url)
+                musicPlayer.numberOfLoops = -1
+                musicPlayer.prepareToPlay()
+                musicPlayer.setVolume(0.7, fadeDuration: 0.5)
+                musicPlayer.play()
+            } catch {
+                print("Couldn't load music file")
+            }
+        }
     }
 
     override var shouldAutorotate: Bool {

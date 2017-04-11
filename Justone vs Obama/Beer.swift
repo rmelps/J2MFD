@@ -17,6 +17,8 @@ class Beer: SKSpriteNode, GameSprite {
     var textureAtlas: SKTextureAtlas = SKTextureAtlas(named: "Environment")
     var value = 1
     
+    let beerSound = SKAction.playSoundFileNamed("Sound/swallow.m4a", waitForCompletion: false)
+    
     required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
     }
@@ -67,6 +69,9 @@ class Beer: SKSpriteNode, GameSprite {
         
         // Run the collect sequence
         self.run(collectSequence)
+        
+        // Play the beer sound
+        self.run(beerSound)
     }
     
     func onTap() {

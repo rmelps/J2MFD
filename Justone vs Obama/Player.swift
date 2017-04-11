@@ -7,6 +7,7 @@
 //
 
 import SpriteKit
+import AVFoundation
 
 class Player: SKSpriteNode, GameSprite {
     
@@ -40,6 +41,10 @@ class Player: SKSpriteNode, GameSprite {
     // Stop forward velocity if the player dies, so store it as a property
     var forwardVelocity: CGFloat = 350
     
+    // Sound effects
+    let hurtSound = SKAction.playSoundFileNamed("Sound/Explosion.wav", waitForCompletion: false)
+    var flySound = AVAudioPlayer()
+    
     required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
     }
@@ -47,6 +52,19 @@ class Player: SKSpriteNode, GameSprite {
     init() {
         initialSize = CGSize(width: justone.size.width / 2, height: justone.size.height / 2)
         super.init(texture: nil, color: .clear, size: initialSize)
+        
+        if let planeSteadyPath = Bundle.main.path(forResource: "Sound/planeSteady", ofType: "mp3") {
+            let url = URL(fileURLWithPath: planeSteadyPath)
+            do {
+                flySound = try AVAudioPlayer(contentsOf: url)
+                flySound.numberOfLoops = -1
+                flySound.volume = 0
+                flySound.prepareToPlay()
+                flySound.play()
+            } catch {
+                print("Couldn't load music file")
+            }
+        }
         
         createAnimations()
         
@@ -203,6 +221,7 @@ class Player: SKSpriteNode, GameSprite {
         }
         self.removeAction(forKey: "soarAnimation")
         self.run(flyAnimation, withKey: "flyAnimation")
+        flySound.setVolume(1.0, fadeDuration: 0.5)
         self.engineRotating = true
     }
     
@@ -210,6 +229,7 @@ class Player: SKSpriteNode, GameSprite {
         if self.health <= 0 || fuelLevel <= 0 {
             return
         }
+        flySound.setVolume(0.35, fadeDuration: 0.5)
         self.run(soarAnimation, withKey: "soarAnimation")
         self.engineRotating = false
     }
@@ -256,6 +276,9 @@ class Player: SKSpriteNode, GameSprite {
             // Run the take damage animation
             self.run(self.damageAnimation)
         }
+        
+        // play the explosion sound
+        self.run(hurtSound)
     }
     
     func die(reason: GameOver) {

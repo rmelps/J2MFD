@@ -240,12 +240,11 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         for background in self.backgrounds {
             background.updatePosition(playerProgress: playerProgress)
         }
-        
         // Turn justone into the landing position upon landing
         // If justone is dead, slowly decrease his velocity to 0
-        if player.physicsBody!.velocity.dy == CGFloat(0) {
+        if player.position.y < 100, !player.engineRotating {
             let rotateUp = SKAction.rotate(toAngle: 0, duration: 0.475)
-            player.removeAction(forKey: "flyAnimation")
+            //player.removeAction(forKey: "flyAnimation")
             player.run(rotateUp)
             
             if (player.health <= 0 || fuelPercent <= 0) , player.forwardVelocity > 0 {
@@ -272,6 +271,18 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                 // If this node adheres to GameSprite, call onTap
                 gameSprite.onTap()
             }
+            // Check for HUD buttons
+            if nodeTouched.name == "restartGame" {
+                // Transition to a new version of the GameScene
+                // to restart the game
+                player.flySound.stop()
+                self.view?.presentScene(GameScene(size: self.size), transition: .crossFade(withDuration: 0.6))
+            } else if nodeTouched.name == "returnToMenu" {
+                // Transition to the main menu scene
+                player.flySound.stop()
+                self.view?.presentScene(MenuScene(size: self.size), transition: .crossFade(withDuration: 0.6))
+            }
+            
         }
         
         player.startFlying(fuelLevel: fuelPercent)
