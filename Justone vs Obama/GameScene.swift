@@ -55,6 +55,11 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     var fuelPercent: Int = 100
     var fuelCounter = Int()
     
+    // Save total distance in miles (arbitrary, assuming every 10000 points is 1 mile)
+    var distance: Int = 0
+    var distanceMarker: Int = 10000
+    let distancePerMile: Int = 10000
+    
     
     override func didMove(to view: SKView) {
         super.didMove(to: view)
@@ -299,6 +304,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     override func update(_ currentTime: TimeInterval) {
         player.update()
         trackPosition()
+        print(player.position.x)
         
         // If health is low, make flying harder by adding random value dY impulses
         if player.health == 1 {
@@ -345,6 +351,12 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             default:
                 break
             }
+        }
+        
+        if Int(player.position.x) > distanceMarker {
+            distance += 1
+            distanceMarker += distancePerMile
+            hud.setDistanceDisplay(distance: distance)
         }
     }
     
@@ -468,7 +480,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                 // position over a set duration.
                 
                 let xPos = abs(encounter.position.x + child.position.x - player.position.x)
-                if  xPos < 100 && xPos >= 0, child.name == "Obama" {
+                if  xPos < 100 && xPos >= 0, child.name == "Obama", player.health > 0 {
                     
                     let childAdjustX = child.position.x + encounter.position.x
                     let childAdjustY = child.position.y + encounter.position.y

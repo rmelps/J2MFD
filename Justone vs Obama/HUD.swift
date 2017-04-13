@@ -28,6 +28,7 @@ class HUD: SKNode {
     
     // An SKLabelNode to print the score
     let beerCountText = SKLabelNode(text: "000000")
+    let distanceCountText = SKLabelNode(text: "0")
     
     func createHudNodes(screenSize: CGSize) {
         let cameraOrigin = CGPoint(x: screenSize.width / 2, y: screenSize.height / 2)
@@ -104,6 +105,16 @@ class HUD: SKNode {
         oilCropNode.addChild(oilBarNode)
         self.addChild(oilCropNode)
         
+        // Create Distance Counter
+        distanceCountText.fontName = "AmericanTypewrite-Bold"
+        distanceCountText.fontColor = .black
+        distanceCountText.fontSize = 60
+        distanceCountText.setScale(0.5)
+        distanceCountText.position = CGPoint(x: cameraOrigin.x - 23, y: -cameraOrigin.y + 23)
+        distanceCountText.verticalAlignmentMode = .bottom
+        distanceCountText.horizontalAlignmentMode = .right
+        self.addChild(distanceCountText)
+        
         // Add the restart and menu button textures to the nodes
         restartButton.texture = textureAtlas.textureNamed("button-restart")
         menuButton.texture = textureAtlas.textureNamed("button-menu")
@@ -145,6 +156,14 @@ class HUD: SKNode {
             return
         }
         oilCropNode.maskNode = SKSpriteNode(texture: nil, color: .black, size: newBarSize)
+    }
+    
+    func setDistanceDisplay(distance: Int) {
+        distanceCountText.text = "\(distance)"
+        let grow = SKAction.scale(to: 1.5, duration: 3)
+        let shrink = SKAction.scale(to: 0.5, duration: 0.5)
+        let pulseAction = SKAction.sequence([grow, shrink])
+        distanceCountText.run(pulseAction)
     }
     
     func showButtons() {
