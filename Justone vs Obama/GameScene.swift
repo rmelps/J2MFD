@@ -107,9 +107,6 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         // Add each encounter node as a child of the GameScene node
         encounterManager.addEncountersToScene(gameScene: self)
         
-        // Set position of first encounter
-        encounterManager.encounters[0].position = CGPoint(x: 2000, y: 200)
-        
         // inform GameScene of contact events
         self.physicsWorld.contactDelegate = self
         
@@ -160,10 +157,13 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             fireEmitter?.targetNode = self
             fireEmitter?.particleBirthRate = 0
         }
+        
+        player.stopFlying(fuelLevel: fuelPercent)
     }
     
     override func didSimulatePhysics() {
         super.didSimulatePhysics()
+        
         // Keep the camera locked at midscreen by default
         var cameraYPos = screenCenterY
         var cameraXPos = player.position.x + increaseXCamDiff
@@ -298,6 +298,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     
     override func update(_ currentTime: TimeInterval) {
         player.update()
+        trackPosition()
         
         // If health is low, make flying harder by adding random value dY impulses
         if player.health == 1 {
@@ -456,5 +457,31 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     func gameOver() {
         // Show the menu and restart buttons
         hud.showButtons()
+    }
+    
+    func trackPosition() {
+        for encounter in encounterManager.encounters {
+            for child in encounter.children {
+                
+                // For each child with the proper name, we will check the x Position
+                // If it is in range of the player, the child will move towards the players current
+                // position over a set duration.
+                
+                let xPos = abs(encounter.position.x + child.position.x - player.position.x)
+                if  xPos < 100 && xPos >= 0, child.name == "Obama" {
+                    
+                    let childAdjustX = child.position.x + encounter.position.x
+                    let childAdjustY = child.position.y + encounter.position.y
+                    let adjustedX = player.position.x - childAdjustX
+                    let adjustedY = player.position.y - childAdjustY
+                    let finalX = child.position.x + adjustedX
+                    let finalY = child.position.y + adjustedY
+                    let moveTo = CGPoint(x: finalX, y: finalY)
+                    let launchAction = SKAction.move(to: moveTo, duration: 0.3)
+                    
+                    child.run(launchAction)
+                }
+            }
+        }
     }
 }

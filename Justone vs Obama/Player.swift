@@ -126,7 +126,7 @@ class Player: SKSpriteNode, GameSprite {
         let rotateUpAction = SKAction.rotate(toAngle: 0.2, duration: 0.475)
         rotateUpAction.timingMode = .easeOut
         
-        let rotateDownAction = SKAction.rotate(toAngle: -1, duration: 3)
+        let rotateDownAction = SKAction.rotate(toAngle: -1, duration: 2)
         rotateDownAction.timingMode = .easeIn
         
         // *******Create the flying animation*******
@@ -282,6 +282,7 @@ class Player: SKSpriteNode, GameSprite {
     }
     
     func die(reason: GameOver) {
+        self.removeAction(forKey: "flyAnimation")
         // Make sure the player is fully visible
         self.alpha = 1
         // Remove all animations
@@ -294,8 +295,11 @@ class Player: SKSpriteNode, GameSprite {
         case .outOfHealth:
             self.run(dieAnimation)
         }
-        // prevent any further upward movement
+        // prevent any further upward motion
         self.engineRotating = false
+        
+        // Quiet the engine a bit
+        flySound.setVolume(0.35, fadeDuration: 0.5)
         
         // Alert the GameScene
         if let gameScene = self.parent as? GameScene {
