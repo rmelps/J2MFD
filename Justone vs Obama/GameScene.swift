@@ -57,8 +57,8 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     
     // Save total distance in miles (arbitrary, assuming every 10000 points is 1 mile)
     var distance: Int = 0
-    var distanceMarker: Int = 10000
-    let distancePerMile: Int = 10000
+    var distanceMarker: Int = 5000
+    let distancePerMile: Int = 5000
     
     
     override func didMove(to view: SKView) {
@@ -480,7 +480,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                 // position over a set duration.
                 
                 let xPos = abs(encounter.position.x + child.position.x - player.position.x)
-                if  xPos < 100 && xPos >= 0, child.name == "Obama", player.health > 0 {
+                if  xPos < 100 && xPos >= 0, child.name == "Obama", player.health > 0, !player.damaged {
                     
                     let childAdjustX = child.position.x + encounter.position.x
                     let childAdjustY = child.position.y + encounter.position.y

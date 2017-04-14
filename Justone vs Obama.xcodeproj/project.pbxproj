@@ -109,6 +109,7 @@
 				95ED49EB1E836DD9001BA89D /* GameScene.sks */,
 				95ED49ED1E836DD9001BA89D /* Actions.sks */,
 				95ED49EF1E836DD9001BA89D /* GameScene.swift */,
+				955426051E9C0C340028AAD4 /* MenuScene.swift */,
 				95ED4A0B1E89EE18001BA89D /* Player.swift */,
 				95ED4A051E89DB71001BA89D /* GameSprite.swift */,
 				95ED4A071E89DBFF001BA89D /* Obama.swift */,
@@ -120,7 +121,6 @@
 				95ED49F11E836DD9001BA89D /* GameViewController.swift */,
 				95ED49F31E836DD9001BA89D /* Main.storyboard */,
 				95ED49F61E836DD9001BA89D /* Assets.xcassets */,
-				955426051E9C0C340028AAD4 /* MenuScene.swift */,
 				95ED49F81E836DD9001BA89D /* LaunchScreen.storyboard */,
 				95ED49FB1E836DD9001BA89D /* Info.plist */,
 			);
