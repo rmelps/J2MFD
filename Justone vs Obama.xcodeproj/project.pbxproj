@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		954700951EA2DAE200F6B5CD /* Cloud.sks in Resources */ = {isa = PBXBuildFile; fileRef = 954700941EA2DAE200F6B5CD /* Cloud.sks */; };
 		955426061E9C0C340028AAD4 /* MenuScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = 955426051E9C0C340028AAD4 /* MenuScene.swift */; };
 		955426081E9C59030028AAD4 /* Sound in Resources */ = {isa = PBXBuildFile; fileRef = 955426071E9C59030028AAD4 /* Sound */; };
 		955472F61E96F4DC00813B5E /* JustoneFirePath.sks in Resources */ = {isa = PBXBuildFile; fileRef = 955472F41E96F4DC00813B5E /* JustoneFirePath.sks */; };
@@ -37,6 +38,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		954700941EA2DAE200F6B5CD /* Cloud.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = Cloud.sks; sourceTree = "<group>"; };
 		955426051E9C0C340028AAD4 /* MenuScene.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MenuScene.swift; sourceTree = "<group>"; };
 		955426071E9C59030028AAD4 /* Sound */ = {isa = PBXFileReference; lastKnownFileType = folder; path = Sound; sourceTree = "<group>"; };
 		955472F41E96F4DC00813B5E /* JustoneFirePath.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; name = JustoneFirePath.sks; path = ../JustoneFirePath.sks; sourceTree = "<group>"; };
@@ -82,6 +84,7 @@
 		95ED49DD1E836DD9001BA89D = {
 			isa = PBXGroup;
 			children = (
+				954700941EA2DAE200F6B5CD /* Cloud.sks */,
 				955472F51E96F4DC00813B5E /* Assets.xcassets */,
 				955426071E9C59030028AAD4 /* Sound */,
 				95ED4A131E8EA765001BA89D /* Encounters */,
@@ -207,6 +210,7 @@
 				95ED49F71E836DD9001BA89D /* Assets.xcassets in Resources */,
 				955472F61E96F4DC00813B5E /* JustoneFirePath.sks in Resources */,
 				95ED4A151E8EA7A6001BA89D /* EncounterA.sks in Resources */,
+				954700951EA2DAE200F6B5CD /* Cloud.sks in Resources */,
 				95ED49FA1E836DD9001BA89D /* LaunchScreen.storyboard in Resources */,
 				95C03CD31E96E48900C1EF98 /* JustoneSmokePath.sks in Resources */,
 				95ED49EE1E836DD9001BA89D /* Actions.sks in Resources */,

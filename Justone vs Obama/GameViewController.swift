@@ -10,10 +10,12 @@ import UIKit
 import SpriteKit
 import GameplayKit
 import AVFoundation
+import MapKit
 
 class GameViewController: UIViewController {
     
     var musicPlayer = AVAudioPlayer()
+    let map = MKMapView()
     
     override func viewWillLayoutSubviews() {
         super.viewWillLayoutSubviews()
@@ -26,6 +28,19 @@ class GameViewController: UIViewController {
         menuScene.size = view.bounds.size
         // Show the menu
         skView.presentScene(menuScene)
+        menuScene.viewController = self
+        
+        // Add map
+        let center = CLLocationCoordinate2D(latitude: 0, longitude: 0)
+        let span = MKCoordinateSpan(latitudeDelta: 30, longitudeDelta: 300)
+        let mapWidth: CGFloat = 50.0
+        let mapHeight: CGFloat = 50.0
+        let origin = CGPoint(x: self.view.frame.width - mapWidth , y: 0.0)
+        map.region = MKCoordinateRegion(center: center, span: span)
+        map.frame = CGRect(origin: origin, size: CGSize(width: mapWidth, height: mapHeight))
+        map.isHidden = true
+        self.view.addSubview(map)
+
         
         // Start the background music
         if let musicPath = Bundle.main.path(forResource: "Sound/TheSafetyDance", ofType: "mp3") {
@@ -57,5 +72,13 @@ class GameViewController: UIViewController {
 
     override var prefersStatusBarHidden: Bool {
         return true
+    }
+    
+    func update() {
+        let skView = self.view as! SKView
+        
+        if let name = skView.scene?.name, name == "Game" {
+            map.isHidden = false
+        }
     }
 }

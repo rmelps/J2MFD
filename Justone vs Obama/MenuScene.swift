@@ -9,10 +9,16 @@
 import SpriteKit
 
 class MenuScene: SKScene {
+    // The scenes Controller
+    var viewController: GameViewController!
+    
     // Grab the HUD Sprite Atlas
     let textureAtlas: SKTextureAtlas = SKTextureAtlas(named: "HUD")
     // Instantiate a sprite node for the start button
     let startButton = SKSpriteNode()
+    
+    // Add cloud emitter
+    let cloudEmitter = SKEmitterNode(fileNamed: "Cloud")
     
     // Create character sprites
     let justone = Player()
@@ -21,24 +27,55 @@ class MenuScene: SKScene {
     let labatt = Beer()
     let labatt2 = Beer()
     let molson = Beer()
+    let molson2 = Beer()
+    
+    // Create Bezierpath
+    let obamaPath = UIBezierPath()
+    let trumpPath = UIBezierPath()
+    var trumpStartPoint = CGPoint()
+    var obamaStartPoint = CGPoint()
+    
     
     // Time tracker
     var initialTime = TimeInterval()
     var initialTimeLatch = true
-    var labatt2AddLatch = true
+    var currentTimeMultiplier: Int = 1
     
     var node2AngularDistance: CGFloat = 0
     var node3AngularDistance: CGFloat = 0
     var node4AngularDistance: CGFloat = 0
+    var node5AngularDistance: CGFloat = 0
+    
+    // Orbiter
+    var orbitingBeers = [Beer]()
+    var currentOrbitingBeerIndex = Int()
+    var period = CGFloat()
+    var periodFast1 = CGFloat()
+    var periodFast2 = CGFloat()
+    var periodFast3 = CGFloat()
+    var periodFast4 = CGFloat()
     
     override func didMove(to view: SKView) {
+        self.name = "Menu"
         // Position the nodes from the center of the screen
         self.anchorPoint = CGPoint(x: 0.5, y: 0.5)
         // Add the background
+        self.backgroundColor = UIColor(red: 0.4, green: 0.6, blue: 0.95, alpha: 1.0)
         let backgroundImage = SKSpriteNode(imageNamed: "backgroundMenu")
-        backgroundImage.size = CGSize(width: 1024, height: 768)
-        backgroundImage.zPosition = -4
+        backgroundImage.size = CGSize(width: 919, height: 300)
+        backgroundImage.anchorPoint = CGPoint(x: 0, y: 0)
+        backgroundImage.position = CGPoint(x: -self.size.width / 2, y: -self.size.height / 2 - 50)
+        backgroundImage.zPosition = -10
         self.addChild(backgroundImage)
+        
+        // Set Orbiter values
+        initialTime = TimeInterval()
+        currentOrbitingBeerIndex = 0
+        period = 4.1
+        periodFast1 = 1.0
+        periodFast2 = 1.0
+        periodFast3 = 1.0
+        periodFast4 = 1.0
         
         // Draw the name of the game
         let logoText = SKLabelNode(fontNamed: "AmericanTypewriter-Bold")
@@ -85,23 +122,21 @@ class MenuScene: SKScene {
         let screenHeight = self.size.height
         
         justone.position = CGPoint(x: -screenWidth / 2 + 70, y: screenHeight / 2 - 125)
-        justone.zPosition = 0
+        justone.zPosition = 1
         justone.physicsBody?.affectedByGravity = false
         self.addChild(justone)
+        
+        // Add cloud emitter
+        cloudEmitter?.position = CGPoint(x: 0.0, y: screenHeight / 2 + 10)
+        self.addChild(cloudEmitter!)
         
         // Add a labatt to the background
         labatt.position = CGPoint.zero
         labatt.physicsBody?.affectedByGravity = false
         labatt.zPosition = -1
         labatt.alpha = 0
+        orbitingBeers.append(labatt)
         self.addChild(labatt)
-        
-        // Add a second labatt to the background
-        labatt2.position = CGPoint.zero
-        labatt2.physicsBody?.affectedByGravity = false
-        labatt2.zPosition = -2
-        labatt2.alpha = 0
-        self.addChild(labatt2)
         
         // Add a molson to the background
         molson.turnToMolson()
@@ -109,7 +144,48 @@ class MenuScene: SKScene {
         molson.physicsBody?.affectedByGravity = false
         molson.zPosition = -3
         molson.alpha = 0
+        orbitingBeers.append(molson)
         self.addChild(molson)
+        
+        // Add a second labatt to the background
+        labatt2.position = CGPoint.zero
+        labatt2.physicsBody?.affectedByGravity = false
+        labatt2.zPosition = -2
+        labatt2.alpha = 0
+        orbitingBeers.append(labatt2)
+        self.addChild(labatt2)
+        
+        // Add a second molson to the background
+        molson2.turnToMolson()
+        molson2.position = CGPoint.zero
+        molson2.physicsBody?.affectedByGravity = false
+        molson2.zPosition = -4
+        molson2.alpha = 0
+        orbitingBeers.append(molson2)
+        self.addChild(molson2)
+        
+        // Add obama to the scene
+        obamaStartPoint = CGPoint(x: screenWidth / 2 + 10, y: 100.0)
+        obamaPath.move(to: CGPoint.zero)
+        obama.physicsBody = nil
+        obamaPath.addQuadCurve(to: CGPoint(x: -100, y: 0.0) , controlPoint: CGPoint(x: -50, y: 200.0))
+        let path1 = SKAction.follow(obamaPath.cgPath, speed: 100)
+        obama.position = obamaStartPoint
+        obama.zPosition = -6
+        self.addChild(obama)
+        obama.run(SKAction.repeatForever(path1))
+        
+        // Add trump to the scene
+        trumpStartPoint = CGPoint(x: screenWidth / 2 + 100, y: -100.0)
+        trumpPath.move(to: CGPoint.zero)
+        trump.physicsBody = nil
+        trumpPath.addQuadCurve(to: CGPoint(x: -200, y: 0.0), controlPoint: CGPoint(x: -100, y: 200.0))
+        let path2 = SKAction.follow(trumpPath.cgPath, speed: 50)
+        trump.position = trumpStartPoint
+        trump.zPosition = -6
+        self.addChild(trump)
+        trump.run(SKAction.repeatForever(path2))
+        
         
         floatJustone()
     }
@@ -120,56 +196,46 @@ class MenuScene: SKScene {
             initialTime = currentTime
             initialTimeLatch = false
         }
-    
-        // Delta time
-        let dt: CGFloat = 1.0 / 6.0
-        // Number of seconds for labatt to complete an orbit
-        let period: CGFloat = 30.0
-        var period2: CGFloat = 60.0
-        var period3: CGFloat = 15.0
-        // Point to orbit
-        let orbitPosition = justone.position
-        // Radius of orbit
+        
+        if trump.position.x < -self.size.width / 2 - 40 {
+            trump.position = trumpStartPoint
+        }
+        if obama.position.x < -self.size.width / 2 - 40 {
+            obama.position = obamaStartPoint
+        }
+        
         let orbitRadius = CGPoint(x: 100, y: 100)
+        let orbitRadius2 = CGPoint(x: 100, y: 100)
+        let orbitRadius3 = CGPoint(x: 100, y: 100)
         
-        // Track time since launch
-        if currentTime - initialTime > 1.3 {
-            let fadeIn = SKAction.fadeAlpha(to: 1.0, duration: 0.5)
-            period2 = period
-            period3 = period
-            molson.run(fadeIn)
-            labatt.run(fadeIn)
-            labatt2.run(fadeIn)
+        let timeSinceLaunch = CGFloat(currentTime - initialTime)
+        
+        if timeSinceLaunch >= period / CGFloat(orbitingBeers.count) * CGFloat(currentTimeMultiplier) {
+            if currentOrbitingBeerIndex <= orbitingBeers.count - 1 {
+                orbitingBeers[currentOrbitingBeerIndex].run(SKAction.fadeAlpha(to: 1, duration: 1))
+            
+                switch currentOrbitingBeerIndex {
+                case 0:
+                    periodFast4 = period
+                case 1:
+                    periodFast1 = period
+                case 2:
+                    periodFast2 = period
+                case 3:
+                    periodFast3 = period
+                default:
+                    print("no item here")
+                }
+                currentOrbitingBeerIndex += 1
+                currentTimeMultiplier += 1
+            }
         }
         
-        let normal = CGVector(dx:orbitPosition.x + CGFloat(cos(self.node2AngularDistance))*orbitRadius.x ,dy:orbitPosition.y + CGFloat(sin(self.node2AngularDistance))*orbitRadius.y)
-        let normal2 = CGVector(dx:orbitPosition.x + CGFloat(cos(self.node3AngularDistance))*orbitRadius.x ,dy:orbitPosition.y + CGFloat(sin(self.node3AngularDistance))*orbitRadius.y)
-        let normal3 = CGVector(dx:orbitPosition.x + CGFloat(cos(self.node4AngularDistance))*orbitRadius.x ,dy:orbitPosition.y + CGFloat(sin(self.node4AngularDistance))*orbitRadius.y)
+        createOrbit(object: labatt, period: periodFast4, orbitPosition: justone.position, orbitRadius: orbitRadius, angularDistance: &node2AngularDistance)
+        createOrbit(object: labatt2, period: periodFast2, orbitPosition: justone.position, orbitRadius:orbitRadius2, angularDistance: &node3AngularDistance)
+        createOrbit(object: molson, period: periodFast1, orbitPosition: justone.position, orbitRadius: orbitRadius3, angularDistance: &node4AngularDistance)
+        createOrbit(object: molson2, period: periodFast3, orbitPosition: justone.position, orbitRadius: orbitRadius3, angularDistance: &node5AngularDistance)
         
-        self.node2AngularDistance += (CGFloat(Double.pi)*2.0)/period*dt
-        self.node3AngularDistance += (CGFloat(Double.pi)*2.0)/period2*dt
-        self.node4AngularDistance += (CGFloat(Double.pi)*2.0)/period3*dt
-        
-        
-        if (fabs(self.node2AngularDistance)>CGFloat(Double.pi)*2)
-        {
-            self.node2AngularDistance = 0
-        }
-        if (fabs(self.node3AngularDistance)>CGFloat(Double.pi)*2)
-        {
-            self.node3AngularDistance = 0
-        }
-        if (fabs(self.node4AngularDistance)>CGFloat(Double.pi)*2)
-        {
-            self.node4AngularDistance = 0
-        }
-        
-        labatt.physicsBody!.velocity = CGVector(dx:(normal.dx - labatt.position.x)/dt ,dy:(normal.dy - labatt.position.y)/dt)
-        labatt2.physicsBody!.velocity = CGVector(dx:(normal2.dx - labatt2.position.x)/dt ,dy:(normal2.dy - labatt2.position.y)/dt)
-        molson.physicsBody!.velocity = CGVector(dx:(normal3.dx - molson.position.x)/dt ,dy:(normal3.dy - molson.position.y)/dt)
-        
-        print("labatt2 position: \(labatt2.position) \n labatt position \(labatt.position)")
-        print(currentTime)
     }
     
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
@@ -181,7 +247,9 @@ class MenuScene: SKScene {
             if nodeTouched.name == "StartButton" {
                 // Player touched either text or button node
                 // Switch to an instance of GameScene
-                self.view?.presentScene(GameScene(size: self.size))
+                let gameScene = GameScene(size: self.size)
+                self.view?.presentScene(gameScene)
+                
             }
             
         }
@@ -201,5 +269,18 @@ class MenuScene: SKScene {
         let floatAction = SKAction.sequence([floatDown, floatUp])
         
         justone.run(SKAction.repeatForever(floatAction))
+    }
+    
+    func createOrbit(object: SKSpriteNode, period: CGFloat, orbitPosition: CGPoint, orbitRadius: CGPoint, angularDistance: inout CGFloat) {
+        let dt: CGFloat = 1.0 / 60.0
+        
+        let normal = CGVector(dx:orbitPosition.x + CGFloat(cos(angularDistance))*orbitRadius.x ,dy:orbitPosition.y + CGFloat(sin(angularDistance))*orbitRadius.y)
+        angularDistance += (CGFloat(Double.pi)*2.0)/period*dt
+        
+        if (fabs(angularDistance)>CGFloat(Double.pi)*2)
+        {
+            angularDistance = 0
+        }
+        object.physicsBody!.velocity = CGVector(dx:(normal.dx - object.position.x)/dt ,dy:(normal.dy - object.position.y)/dt)
     }
 }

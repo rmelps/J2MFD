@@ -205,7 +205,6 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             fuelPercent -= 1
             fuelCounter += distancePerPercent
             hud.setOilDisplay(fuelLevel: fuelPercent)
-            print(fuelPercent)
         }
         
         if fuelPercent == 0 {
@@ -304,7 +303,6 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     override func update(_ currentTime: TimeInterval) {
         player.update()
         trackPosition()
-        print(player.position.x)
         
         // If health is low, make flying harder by adding random value dY impulses
         if player.health == 1 {
@@ -489,7 +487,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                     let finalX = child.position.x + adjustedX
                     let finalY = child.position.y + adjustedY
                     let moveTo = CGPoint(x: finalX, y: finalY)
-                    let launchAction = SKAction.move(to: moveTo, duration: 0.3)
+                    let launchAction = SKAction.move(to: moveTo, duration: 0.4)
                     
                     child.run(launchAction)
                 }

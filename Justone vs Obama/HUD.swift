@@ -125,6 +125,7 @@ class HUD: SKNode {
         // Size the button nodes
         restartButton.size = CGSize(width: 140, height: 140)
         menuButton.size = CGSize(width: 70, height: 70)
+        
     }
     
     func setBeerCountDisplay(newBeerCount: Int) {
