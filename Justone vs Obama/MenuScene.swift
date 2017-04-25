@@ -9,9 +9,6 @@
 import SpriteKit
 
 class MenuScene: SKScene {
-    // The scenes Controller
-    var viewController: GameViewController!
-    
     // Grab the HUD Sprite Atlas
     let textureAtlas: SKTextureAtlas = SKTextureAtlas(named: "HUD")
     // Instantiate a sprite node for the start button
@@ -56,7 +53,6 @@ class MenuScene: SKScene {
     var periodFast4 = CGFloat()
     
     override func didMove(to view: SKView) {
-        self.name = "Menu"
         // Position the nodes from the center of the screen
         self.anchorPoint = CGPoint(x: 0.5, y: 0.5)
         // Add the background
@@ -230,6 +226,7 @@ class MenuScene: SKScene {
                 currentTimeMultiplier += 1
             }
         }
+ 
         
         createOrbit(object: labatt, period: periodFast4, orbitPosition: justone.position, orbitRadius: orbitRadius, angularDistance: &node2AngularDistance)
         createOrbit(object: labatt2, period: periodFast2, orbitPosition: justone.position, orbitRadius:orbitRadius2, angularDistance: &node3AngularDistance)

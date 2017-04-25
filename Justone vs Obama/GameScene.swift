@@ -47,8 +47,6 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     // Particle Emitters
     let smokeEmitter = SKEmitterNode(fileNamed: "JustoneSmokePath")
     let fireEmitter = SKEmitterNode(fileNamed: "JustoneFirePath")
-    let trumpEmitter = SKEmitterNode(fileNamed: "HeadEmitter")
-    let obamaEmitter = SKEmitterNode(fileNamed: "HeadEmitter")
     
     // Fuel related parameters
     let distancePerPercent: Int = 1000
@@ -382,12 +380,10 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         
         // Find the type of contact
         switch otherBody.categoryBitMask {
-        case PhysicsCategory.ground.rawValue:
-            print("hit the ground")
         case PhysicsCategory.trump.rawValue:
             if !player.damaged {
                 let trumpEmitter = SKEmitterNode(fileNamed: "HeadEmitter")
-                trumpEmitter?.particleTexture = SKTexture(imageNamed: "TrumpClosed")
+                //trumpEmitter?.particleTexture = SKTexture(imageNamed: "TrumpClosed")
                 enemyEmitter(emitter: trumpEmitter!, location: otherBody)
                 
             }
@@ -411,6 +407,13 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             if let beer = otherBody.node as? Beer {
                 // Invoke the collect animation
                 beer.collect()
+                // Configure the BeerSpark particle emitter
+                let beerEmitter = SKEmitterNode(fileNamed: "BeerSpark")
+                let randomHue = CGFloat(arc4random_uniform(100)) / CGFloat(100)
+                let dyingColor = UIColor(hue: randomHue, saturation: 1.0, brightness: 1.0, alpha: 1.0)
+                let beerColorSequence = SKKeyframeSequence(keyframeValues: [SKColor.white, dyingColor], times: [0.0, 0.05])
+                beerEmitter?.particleColorSequence = beerColorSequence
+                enemyEmitter(emitter: beerEmitter!, location: otherBody)
                 // Add the value of the coin to our counter:
                 self.beersCollected += beer.value
                 hud.setBeerCountDisplay(newBeerCount: self.beersCollected)

@@ -17,7 +17,7 @@ class Beer: SKSpriteNode, GameSprite {
     var textureAtlas: SKTextureAtlas = SKTextureAtlas(named: "Environment")
     var value = 1
     
-    let beerSound = SKAction.playSoundFileNamed("Sound/swallow.m4a", waitForCompletion: false)
+    let beerSound = SKAction.playSoundFileNamed("Sound/SFX_Pickup_20.wav", waitForCompletion: false)
     
     required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
