@@ -7,8 +7,10 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		9085BEE7F90A36DD3133B621 /* Pods_Justone_vs_Obama.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 34E303F539AA5B91EF9D20C9 /* Pods_Justone_vs_Obama.framework */; };
 		954700951EA2DAE200F6B5CD /* Cloud.sks in Resources */ = {isa = PBXBuildFile; fileRef = 954700941EA2DAE200F6B5CD /* Cloud.sks */; };
 		954700CE1EAEAE3800F6B5CD /* BeerSpark.sks in Resources */ = {isa = PBXBuildFile; fileRef = 954700CD1EAEAE3800F6B5CD /* BeerSpark.sks */; };
+		954700D21EB249FE00F6B5CD /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 954700D11EB249FE00F6B5CD /* GoogleService-Info.plist */; };
 		955426061E9C0C340028AAD4 /* MenuScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = 955426051E9C0C340028AAD4 /* MenuScene.swift */; };
 		955426081E9C59030028AAD4 /* Sound in Resources */ = {isa = PBXBuildFile; fileRef = 955426071E9C59030028AAD4 /* Sound */; };
 		955472F61E96F4DC00813B5E /* JustoneFirePath.sks in Resources */ = {isa = PBXBuildFile; fileRef = 955472F41E96F4DC00813B5E /* JustoneFirePath.sks */; };
@@ -39,8 +41,12 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		954700941EA2DAE200F6B5CD /* Cloud.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = Cloud.sks; sourceTree = "<group>"; };
+		0393DB3FFBBD340B9AC42F44 /* Pods-Justone vs Obama.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Justone vs Obama.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Justone vs Obama/Pods-Justone vs Obama.debug.xcconfig"; sourceTree = "<group>"; };
+		34E303F539AA5B91EF9D20C9 /* Pods_Justone_vs_Obama.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Justone_vs_Obama.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		86A69C30E8325C8316BE5F9A /* Pods-Justone vs Obama.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Justone vs Obama.release.xcconfig"; path = "Pods/Target Support Files/Pods-Justone vs Obama/Pods-Justone vs Obama.release.xcconfig"; sourceTree = "<group>"; };
+		954700941EA2DAE200F6B5CD /* Cloud.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; name = Cloud.sks; path = ../Cloud.sks; sourceTree = "<group>"; };
 		954700CD1EAEAE3800F6B5CD /* BeerSpark.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = BeerSpark.sks; sourceTree = "<group>"; };
+		954700D11EB249FE00F6B5CD /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		955426051E9C0C340028AAD4 /* MenuScene.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MenuScene.swift; sourceTree = "<group>"; };
 		955426071E9C59030028AAD4 /* Sound */ = {isa = PBXFileReference; lastKnownFileType = folder; path = Sound; sourceTree = "<group>"; };
 		955472F41E96F4DC00813B5E /* JustoneFirePath.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; name = JustoneFirePath.sks; path = ../JustoneFirePath.sks; sourceTree = "<group>"; };
@@ -77,6 +83,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				9085BEE7F90A36DD3133B621 /* Pods_Justone_vs_Obama.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -86,6 +93,7 @@
 		954700CC1EAEADDA00F6B5CD /* Particle Emitters */ = {
 			isa = PBXGroup;
 			children = (
+				954700941EA2DAE200F6B5CD /* Cloud.sks */,
 				95C03CD21E96E48900C1EF98 /* JustoneSmokePath.sks */,
 				955472F41E96F4DC00813B5E /* JustoneFirePath.sks */,
 				955472FE1E97EFC200813B5E /* HeadEmitter.sks */,
@@ -98,12 +106,13 @@
 		95ED49DD1E836DD9001BA89D = {
 			isa = PBXGroup;
 			children = (
-				954700941EA2DAE200F6B5CD /* Cloud.sks */,
 				955472F51E96F4DC00813B5E /* Assets.xcassets */,
 				955426071E9C59030028AAD4 /* Sound */,
 				95ED4A131E8EA765001BA89D /* Encounters */,
 				95ED49E81E836DD9001BA89D /* Justone vs Obama */,
 				95ED49E71E836DD9001BA89D /* Products */,
+				D93F01DDE5FA3CEC890E6756 /* Pods */,
+				B5D790AC29C0CDEF115C4199 /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -137,6 +146,7 @@
 				95ED49F61E836DD9001BA89D /* Assets.xcassets */,
 				95ED49F81E836DD9001BA89D /* LaunchScreen.storyboard */,
 				95ED49FB1E836DD9001BA89D /* Info.plist */,
+				954700D11EB249FE00F6B5CD /* GoogleService-Info.plist */,
 			);
 			path = "Justone vs Obama";
 			sourceTree = "<group>";
@@ -152,6 +162,23 @@
 			name = Encounters;
 			sourceTree = "<group>";
 		};
+		B5D790AC29C0CDEF115C4199 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				34E303F539AA5B91EF9D20C9 /* Pods_Justone_vs_Obama.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		D93F01DDE5FA3CEC890E6756 /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				0393DB3FFBBD340B9AC42F44 /* Pods-Justone vs Obama.debug.xcconfig */,
+				86A69C30E8325C8316BE5F9A /* Pods-Justone vs Obama.release.xcconfig */,
+			);
+			name = Pods;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -159,9 +186,12 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 95ED49FE1E836DD9001BA89D /* Build configuration list for PBXNativeTarget "Justone vs Obama" */;
 			buildPhases = (
+				BF3980BC7101B34D6B234FCF /* [CP] Check Pods Manifest.lock */,
 				95ED49E21E836DD9001BA89D /* Sources */,
 				95ED49E31E836DD9001BA89D /* Frameworks */,
 				95ED49E41E836DD9001BA89D /* Resources */,
+				8A480E1726AA1D72E02EC3E4 /* [CP] Embed Pods Frameworks */,
+				D8EADC512E6B23911ADA7C8F /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -222,6 +252,7 @@
 				95ED49F71E836DD9001BA89D /* Assets.xcassets in Resources */,
 				955472F61E96F4DC00813B5E /* JustoneFirePath.sks in Resources */,
 				95ED4A151E8EA7A6001BA89D /* EncounterA.sks in Resources */,
+				954700D21EB249FE00F6B5CD /* GoogleService-Info.plist in Resources */,
 				954700951EA2DAE200F6B5CD /* Cloud.sks in Resources */,
 				95ED49FA1E836DD9001BA89D /* LaunchScreen.storyboard in Resources */,
 				95C03CD31E96E48900C1EF98 /* JustoneSmokePath.sks in Resources */,
@@ -231,6 +262,54 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		8A480E1726AA1D72E02EC3E4 /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-Justone vs Obama/Pods-Justone vs Obama-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		BF3980BC7101B34D6B234FCF /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n";
+			showEnvVarsInLog = 0;
+		};
+		D8EADC512E6B23911ADA7C8F /* [CP] Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Copy Pods Resources";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-Justone vs Obama/Pods-Justone vs Obama-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+/* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		95ED49E21E836DD9001BA89D /* Sources */ = {
@@ -371,12 +450,13 @@
 		};
 		95ED49FF1E836DD9001BA89D /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 0393DB3FFBBD340B9AC42F44 /* Pods-Justone vs Obama.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				DEVELOPMENT_TEAM = A5EQQRPM7V;
 				INFOPLIST_FILE = "Justone vs Obama/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = "com.justtwomufuckindudes.Justone-vs-Obama";
+				PRODUCT_BUNDLE_IDENTIFIER = com.j2mfd.455toToronto;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 3.0;
 			};
@@ -384,12 +464,13 @@
 		};
 		95ED4A001E836DD9001BA89D /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 86A69C30E8325C8316BE5F9A /* Pods-Justone vs Obama.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				DEVELOPMENT_TEAM = A5EQQRPM7V;
 				INFOPLIST_FILE = "Justone vs Obama/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = "com.justtwomufuckindudes.Justone-vs-Obama";
+				PRODUCT_BUNDLE_IDENTIFIER = com.j2mfd.455toToronto;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 3.0;
 			};

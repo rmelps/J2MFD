@@ -9,6 +9,7 @@
 import SpriteKit
 import GameplayKit
 import CoreMotion
+import GoogleMobileAds
 
 enum PhysicsCategory: UInt32 {
     case justone = 1
@@ -38,7 +39,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     var playerProgress = CGFloat()
     var backgrounds = [Background]()
     let encounterManager = EncounterManager()
-    var nextEncounterSpawnPosition: CGFloat = 150
+    var nextEncounterSpawnPosition: CGFloat = 1000
     var increaseXCamDiff: CGFloat = 0
     let oilCan = Oil()
     var beersCollected: Int =  0
@@ -54,9 +55,11 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     var fuelCounter = Int()
     
     // Save total distance in miles (arbitrary, assuming every 10000 points is 1 mile)
+    let winningDistance = 455
     var distance: Int = 0
     var distanceMarker: Int = 5000
     let distancePerMile: Int = 5000
+    var winDistance = false
     
     
     override func didMove(to view: SKView) {
@@ -219,7 +222,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         ground.checkForReposition(playerprogress: playerProgress)
         
         // Check to see if a new encounter shoud be set
-        if player.position.x > nextEncounterSpawnPosition {
+        if player.position.x > nextEncounterSpawnPosition, player.position.x < CGFloat(winningDistance * distancePerMile - 2000) {
             encounterManager.placeNextEncounter(currentXPos: nextEncounterSpawnPosition)
             nextEncounterSpawnPosition += 1200
             
@@ -249,7 +252,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             //player.removeAction(forKey: "flyAnimation")
             player.run(rotateUp)
             
-            if (player.health <= 0 || fuelPercent <= 0) , player.forwardVelocity > 0 {
+            if (player.health <= 0 || fuelPercent <= 0 || winDistance) , player.forwardVelocity > 0 {
                 player.forwardVelocity -= 5
             } else if player.forwardVelocity <= 0 {
                 player.forwardVelocity = 0
@@ -278,7 +281,14 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                 // Transition to a new version of the GameScene
                 // to restart the game
                 player.flySound.stop()
-                self.view?.presentScene(GameScene(size: self.size), transition: .crossFade(withDuration: 0.6))
+                let currentViewController: UIViewController = UIApplication.shared.keyWindow!.rootViewController!
+                let gameViewContrller = currentViewController as! GameViewController
+                print(currentViewController)
+                if !gameViewContrller.interstitial.hasBeenUsed {
+                        gameViewContrller.loadAd()
+                } else {
+                        self.view?.presentScene(GameScene(size: self.size), transition: .crossFade(withDuration: 0.6))
+                }
             } else if nodeTouched.name == "returnToMenu" {
                 // Transition to the main menu scene
                 player.flySound.stop()
@@ -287,7 +297,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             
         }
         
-        player.startFlying(fuelLevel: fuelPercent)
+        player.startFlying(fuelLevel: fuelPercent, winDistance: winDistance)
     }
     
     override func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent?) {
@@ -302,6 +312,12 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         player.update()
         trackPosition()
         
+        if distance >= winningDistance, !winDistance {
+            player.stopFlying(fuelLevel: self.fuelPercent)
+            smokeEmitter?.emissionAngle = fireEmitter!.emissionAngle
+            winDistance = true
+        }
+        
         // If health is low, make flying harder by adding random value dY impulses
         if player.health == 1 {
             let bound: UInt32 = 1000
@@ -315,7 +331,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         }
     
         // Unwrap the accelerometer data optional
-        if let accelData = self.motionManager.accelerometerData, player.health > 0, fuelPercent > 0 {
+        if let accelData = self.motionManager.accelerometerData, player.health > 0, fuelPercent > 0, !winDistance {
             var forceAmount: CGFloat
             
             // Based on the device orientation, the tilt number can indicate

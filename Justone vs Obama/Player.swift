@@ -215,8 +215,8 @@ class Player: SKSpriteNode, GameSprite {
         
     }
     
-    func startFlying(fuelLevel: Int) {
-        if self.health <= 0 || fuelLevel <= 0 {
+    func startFlying(fuelLevel: Int, winDistance: Bool) {
+        if self.health <= 0 || fuelLevel <= 0 || winDistance {
             return
         }
         self.removeAction(forKey: "soarAnimation")
@@ -288,7 +288,6 @@ class Player: SKSpriteNode, GameSprite {
         // Remove all animations
         self.removeAllActions()
         // Run the die animation
-        
         switch reason {
         case .outOfFuel:
             self.run(outOfFuelAnimation)
