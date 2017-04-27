@@ -1,0 +1,6 @@
+framework module Pods_Justone_vs_Obama {
+  umbrella header "Pods-Justone vs Obama-umbrella.h"
+
+  export *
+  module * { export * }
+}
