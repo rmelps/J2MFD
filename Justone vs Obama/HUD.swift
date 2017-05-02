@@ -15,6 +15,10 @@ class HUD: SKNode {
     let restartButton = SKSpriteNode()
     let menuButton = SKSpriteNode()
     
+    // Sound & Music nodes
+    var soundNode = SKSpriteNode()
+    var musicNode = SKSpriteNode()
+    
     // Health related parameters
     let healthCropNode = SKCropNode()
     let healthBarSize = CGSize(width: 300, height: 5)
@@ -54,6 +58,28 @@ class HUD: SKNode {
         // Add text label and beer icon to HUD
         self.addChild(beerCountText)
         self.addChild(beerIcon)
+        
+        // Create sound a music nodes
+        let currentViewController: UIViewController = UIApplication.shared.keyWindow!.rootViewController!
+        let gameViewContrller = currentViewController as! GameViewController
+        
+        if gameViewContrller.isSoundOn {
+            soundNode = SKSpriteNode(texture: self.textureAtlas.textureNamed("sound_on"))
+        } else {
+            soundNode = SKSpriteNode(texture: self.textureAtlas.textureNamed("sound_off"))
+        }
+        if gameViewContrller.isMusicOn {
+            musicNode = SKSpriteNode(texture: self.textureAtlas.textureNamed("music_on"))
+        } else {
+            musicNode = SKSpriteNode(texture: self.textureAtlas.textureNamed("music_off"))
+        }
+        musicNode.name = "musicButton"
+        soundNode.name = "soundButton"
+        
+        soundNode.position = CGPoint(x: cameraOrigin.x - 23, y: cameraOrigin.y - 23)
+        musicNode.position = CGPoint(x: soundNode.position.x - 45, y: soundNode.position.y)
+        self.addChild(soundNode)
+        self.addChild(musicNode)
         
         // Create one Cross node
         let crossNode = SKSpriteNode(texture: self.textureAtlas.textureNamed("red_cross_outline"))
@@ -106,7 +132,7 @@ class HUD: SKNode {
         self.addChild(oilCropNode)
         
         // Create Distance Counter
-        distanceCountText.fontName = "AmericanTypewrite-Bold"
+        distanceCountText.fontName = "AmericanTypewriter-Bold"
         distanceCountText.fontColor = .black
         distanceCountText.fontSize = 60
         distanceCountText.setScale(0.5)

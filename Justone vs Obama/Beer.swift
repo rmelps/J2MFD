@@ -42,7 +42,7 @@ class Beer: SKSpriteNode, GameSprite {
         self.value = 5
     }
     
-    func collect() {
+    func collect(withSound: Bool) {
         // Prevent further contact:
         self.physicsBody?.categoryBitMask = 0
         
@@ -70,8 +70,10 @@ class Beer: SKSpriteNode, GameSprite {
         // Run the collect sequence
         self.run(collectSequence)
         
-        // Play the beer sound
-        self.run(beerSound)
+        if withSound {
+            // Play the beer sound
+            self.run(beerSound)
+        }
     }
     
     func onTap() {

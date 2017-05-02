@@ -27,6 +27,11 @@ enum GameOver {
     case outOfHealth
 }
 
+enum Sounds {
+    case gameSounds
+    case musicSounds
+}
+
 class GameScene: SKScene, SKPhysicsContactDelegate {
     
     let player = Player()
@@ -44,6 +49,11 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     let oilCan = Oil()
     var beersCollected: Int =  0
     var initialHealth = Int()
+    
+    // Sound & Music Settings
+    var isSoundOn = Bool()
+    var isMusicOn = Bool()
+    
     
     // Particle Emitters
     let smokeEmitter = SKEmitterNode(fileNamed: "JustoneSmokePath")
@@ -73,6 +83,12 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         
         // Assign the camera to the scene
         self.camera = cam
+        
+        // Set sound and music variables based on VC values
+        let currentViewController: UIViewController = UIApplication.shared.keyWindow!.rootViewController!
+        let gameViewContrller = currentViewController as! GameViewController
+        isSoundOn = gameViewContrller.isSoundOn
+        isMusicOn = gameViewContrller.isMusicOn
         
         // Position the ground based on the screen size
         // Position X: negative one screen width
@@ -164,7 +180,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             fireEmitter?.particleBirthRate = 0
         }
         
-        player.stopFlying(fuelLevel: fuelPercent)
+        player.stopFlying(fuelLevel: fuelPercent, withSound: isSoundOn)
     }
     
     override func didSimulatePhysics() {
@@ -209,7 +225,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         }
         
         if fuelPercent == 0 {
-            player.die(reason: .outOfFuel)
+            player.die(reason: .outOfFuel, soundOn: isSoundOn)
             fuelPercent = -1
             smokeEmitter?.emissionAngle = fireEmitter!.emissionAngle
             
@@ -264,6 +280,9 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
         for touch in (touches) {
             
+            let currentViewController: UIViewController = UIApplication.shared.keyWindow!.rootViewController!
+            let gameViewContrller = currentViewController as! GameViewController
+            
             // Find the location of the touch
             let location = touch.location(in: self)
             
@@ -281,15 +300,45 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                 // Transition to a new version of the GameScene
                 // to restart the game
                 player.flySound.stop()
-                let currentViewController: UIViewController = UIApplication.shared.keyWindow!.rootViewController!
-                let gameViewContrller = currentViewController as! GameViewController
+                
                 print(currentViewController)
                 if !gameViewContrller.interstitial.hasBeenUsed {
                         gameViewContrller.loadAd()
                 } else {
                         self.view?.presentScene(GameScene(size: self.size), transition: .crossFade(withDuration: 0.6))
                 }
-            } else if nodeTouched.name == "returnToMenu" {
+            }
+            if nodeTouched.name == "soundButton" {
+                let soundButton = nodeTouched as! SKSpriteNode
+                
+                if isSoundOn {
+                    soundButton.texture = SKTexture(imageNamed: "sound_off")
+                    isSoundOn = false
+                    gameViewContrller.isSoundOn = false
+                    setSoundLevels(newLevel: 0.0, sound: .gameSounds)
+                } else {
+                    soundButton.texture = SKTexture(imageNamed: "sound_on")
+                    isSoundOn = true
+                    gameViewContrller.isSoundOn = true
+                    setSoundLevels(newLevel: 0.35, sound: .gameSounds)
+                }
+            }
+            if nodeTouched.name == "musicButton" {
+                let soundButton = nodeTouched as! SKSpriteNode
+                
+                if isMusicOn {
+                    soundButton.texture = SKTexture(imageNamed: "music_off")
+                    isMusicOn = false
+                    gameViewContrller.isMusicOn = false
+                    setSoundLevels(newLevel: 0.0, sound: .musicSounds)
+                } else {
+                    soundButton.texture = SKTexture(imageNamed: "music_on")
+                    isMusicOn = true
+                    gameViewContrller.isMusicOn = true
+                    setSoundLevels(newLevel: 0.7, sound: .musicSounds)
+                }
+            }
+            else if nodeTouched.name == "returnToMenu" {
                 // Transition to the main menu scene
                 player.flySound.stop()
                 self.view?.presentScene(MenuScene(size: self.size), transition: .crossFade(withDuration: 0.6))
@@ -297,15 +346,15 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             
         }
         
-        player.startFlying(fuelLevel: fuelPercent, winDistance: winDistance)
+        player.startFlying(fuelLevel: fuelPercent, winDistance: winDistance, withSound: isSoundOn)
     }
     
     override func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent?) {
-        player.stopFlying(fuelLevel: fuelPercent)
+        player.stopFlying(fuelLevel: fuelPercent, withSound: isSoundOn)
     }
     
     override func touchesCancelled(_ touches: Set<UITouch>, with event: UIEvent?) {
-        player.stopFlying(fuelLevel: fuelPercent)
+        player.stopFlying(fuelLevel: fuelPercent, withSound: isSoundOn)
     }
     
     override func update(_ currentTime: TimeInterval) {
@@ -313,7 +362,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         trackPosition()
         
         if distance >= winningDistance, !winDistance {
-            player.stopFlying(fuelLevel: self.fuelPercent)
+            player.stopFlying(fuelLevel: self.fuelPercent, withSound: isSoundOn)
             smokeEmitter?.emissionAngle = fireEmitter!.emissionAngle
             winDistance = true
         }
@@ -333,23 +382,25 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         // Unwrap the accelerometer data optional
         if let accelData = self.motionManager.accelerometerData, player.health > 0, fuelPercent > 0, !winDistance {
             var forceAmount: CGFloat
-            
+            var accelY = accelData.acceleration.y
             // Based on the device orientation, the tilt number can indicate
             // opposite user desires. The UIApplication class exposes an enum
             // that allows us to pull the current orientation
             switch UIApplication.shared.statusBarOrientation {
             case .landscapeLeft:
                 forceAmount = 200
+                print("landscape left")
                 
             case .landscapeRight:
-                forceAmount = -200
+                forceAmount = 200
+                print("landscape right")
+                accelY = -accelY
             default:
                 forceAmount = 0
             }
             
             // If the device is tilted more than 15% towards vertical
             // then we want to move Justone
-            let accelY = accelData.acceleration.y
             
             switch accelY {
             case _ where accelY > 0.0 && accelY < 0.05:
@@ -403,7 +454,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                 enemyEmitter(emitter: trumpEmitter!, location: otherBody)
                 
             }
-            player.takeDamage(smokeEmitter: self.smokeEmitter, fireEmitter: self.fireEmitter)
+            player.takeDamage(smokeEmitter: self.smokeEmitter, fireEmitter: self.fireEmitter, withSound: isSoundOn)
             hud.setHealthDisplay(newHealth: player.health)
         case PhysicsCategory.obama.rawValue:
             if !player.damaged {
@@ -416,13 +467,13 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                 let currentYPos = otherBody.node?.position.y
                 otherBody.node?.position = CGPoint(x: currentXPos!, y: currentYPos! + 3000)
             }
-            player.takeDamage(smokeEmitter: self.smokeEmitter, fireEmitter: self.fireEmitter)
+            player.takeDamage(smokeEmitter: self.smokeEmitter, fireEmitter: self.fireEmitter, withSound: isSoundOn)
             hud.setHealthDisplay(newHealth: player.health)
         case PhysicsCategory.beer.rawValue:
             // Try to cast the otherBody's node as a Beer
             if let beer = otherBody.node as? Beer {
                 // Invoke the collect animation
-                beer.collect()
+                beer.collect(withSound: isSoundOn)
                 // Configure the BeerSpark particle emitter
                 let beerEmitter = SKEmitterNode(fileNamed: "BeerSpark")
                 let randomHue = CGFloat(arc4random_uniform(100)) / CGFloat(100)
@@ -486,6 +537,17 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     func gameOver() {
         // Show the menu and restart buttons
         hud.showButtons()
+    }
+    
+    func setSoundLevels(newLevel: CGFloat, sound: Sounds) {
+        if sound == .gameSounds {
+            player.flySound.volume = Float(newLevel)
+        }
+        if sound == .musicSounds {
+            let currentViewController: UIViewController = UIApplication.shared.keyWindow!.rootViewController!
+            let gameViewContrller = currentViewController as! GameViewController
+            gameViewContrller.musicPlayer.volume = Float(newLevel)
+        }
     }
     
     func trackPosition() {

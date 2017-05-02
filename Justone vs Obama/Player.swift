@@ -215,26 +215,32 @@ class Player: SKSpriteNode, GameSprite {
         
     }
     
-    func startFlying(fuelLevel: Int, winDistance: Bool) {
+    func startFlying(fuelLevel: Int, winDistance: Bool, withSound: Bool) {
         if self.health <= 0 || fuelLevel <= 0 || winDistance {
             return
         }
         self.removeAction(forKey: "soarAnimation")
         self.run(flyAnimation, withKey: "flyAnimation")
-        flySound.setVolume(1.0, fadeDuration: 0.5)
+        
+        if withSound {
+            flySound.setVolume(1.0, fadeDuration: 0.5)
+        }
+        
         self.engineRotating = true
     }
     
-    func stopFlying(fuelLevel: Int) {
+    func stopFlying(fuelLevel: Int, withSound: Bool) {
         if self.health <= 0 || fuelLevel <= 0 {
             return
         }
-        flySound.setVolume(0.35, fadeDuration: 0.5)
+        if withSound {
+            flySound.setVolume(0.35, fadeDuration: 0.5)
+        }
         self.run(soarAnimation, withKey: "soarAnimation")
         self.engineRotating = false
     }
     
-    func takeDamage(smokeEmitter: SKEmitterNode?, fireEmitter: SKEmitterNode?) {
+    func takeDamage(smokeEmitter: SKEmitterNode?, fireEmitter: SKEmitterNode?, withSound: Bool) {
         // If invulnerable or damaged, return:
         if self.damaged {
             return
@@ -271,17 +277,19 @@ class Player: SKSpriteNode, GameSprite {
         
         if self.health == 0 {
             // If out of health, run the die function
-            die(reason: .outOfHealth)
+            die(reason: .outOfHealth, soundOn: withSound)
         } else {
             // Run the take damage animation
             self.run(self.damageAnimation)
         }
         
-        // play the explosion sound
-        self.run(hurtSound)
+        if withSound {
+            // play the explosion sound
+            self.run(hurtSound)
+        }
     }
     
-    func die(reason: GameOver) {
+    func die(reason: GameOver, soundOn: Bool) {
         self.removeAction(forKey: "flyAnimation")
         // Make sure the player is fully visible
         self.alpha = 1
@@ -297,8 +305,10 @@ class Player: SKSpriteNode, GameSprite {
         // prevent any further upward motion
         self.engineRotating = false
         
-        // Quiet the engine a bit
-        flySound.setVolume(0.35, fadeDuration: 0.5)
+        if soundOn {
+            // Quiet the engine a bit
+            flySound.setVolume(0.35, fadeDuration: 0.5)
+        }
         
         // Alert the GameScene
         if let gameScene = self.parent as? GameScene {

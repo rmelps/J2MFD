@@ -19,18 +19,13 @@ class GameViewController: UIViewController, SKSceneDelegate, GADInterstitialDele
     
     var musicPlayer = AVAudioPlayer()
     var bootLoad = true
+    var isSoundOn = true
+    var isMusicOn = true
     
     override func viewDidLoad() {
         super.viewDidLoad()
         print("loading viewController......")
-        interstitial = GADInterstitial(adUnitID: "ca-app-pub-4908431977013240/5183765813")
-        interstitial.delegate = self
-        // Implement and load Google Interstitial Ad
-        let request = GADRequest()
-        // Request test ads on devices you specify. Your test device ID is printed to the console when
-        // an ad request is made.
-        request.testDevices = [ kGADSimulatorID, "6ae7f73e0e8781edf6b04e6967e3cba1" ]
-        interstitial.load(request)
+        interstitial = createAndLoadInterstitial()
         
         // Start the background music
         if let musicPath = Bundle.main.path(forResource: "Sound/TheSafetyDance", ofType: "mp3") {
@@ -82,8 +77,22 @@ class GameViewController: UIViewController, SKSceneDelegate, GADInterstitialDele
         return true
     }
     
+    func createAndLoadInterstitial() -> GADInterstitial {
+        let interstitialAd = GADInterstitial(adUnitID: "ca-app-pub-4908431977013240/5183765813")
+        interstitialAd.delegate = self
+        // Implement and load Google Interstitial Ad
+        let request = GADRequest()
+        // Request test ads on devices you specify. Your test device ID is printed to the console when
+        // an ad request is made.
+        request.testDevices = [ kGADSimulatorID, "6ae7f73e0e8781edf6b04e6967e3cba1" ]
+        interstitialAd.load(request)
+        
+        return interstitialAd
+    }
+    
     func interstitialWillDismissScreen(_ ad: GADInterstitial) {
         presentGameScene()
+        interstitial = createAndLoadInterstitial()
     }
     
     func loadAd() {
@@ -92,6 +101,7 @@ class GameViewController: UIViewController, SKSceneDelegate, GADInterstitialDele
             interstitial.present(fromRootViewController: self)
         } else {
             print("Ad wasn't ready")
+            presentGameScene()
         }
     }
     

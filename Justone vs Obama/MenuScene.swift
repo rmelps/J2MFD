@@ -14,6 +14,9 @@ class MenuScene: SKScene {
     // Instantiate a sprite node for the start button
     let startButton = SKSpriteNode()
     
+    // Instantiate a sprite node for the leaderboards button
+    let leaderboardButton = SKSpriteNode()
+    
     // Add cloud emitter
     let cloudEmitter = SKEmitterNode(fileNamed: "Cloud")
     
@@ -89,7 +92,7 @@ class MenuScene: SKScene {
         
         // Build the start button
         startButton.texture = textureAtlas.textureNamed("button")
-        startButton.size = CGSize(width: 295, height: 76)
+        startButton.size = CGSize(width: 147, height: 64)
         // Name the start node for touch detection
         startButton.name = "StartButton"
         startButton.position = CGPoint(x: 0, y: -20)
@@ -99,7 +102,7 @@ class MenuScene: SKScene {
         let startText = SKLabelNode(fontNamed: "AvenirNext-HeavyItalic")
         startText.text = "DO IT"
         startText.verticalAlignmentMode = .center
-        startText.position = CGPoint(x: 0, y: 2)
+        startText.position = CGPoint.zero
         startText.fontSize = 40
         // Name the text node for touch detection
         startText.name = "StartButton"
@@ -113,6 +116,13 @@ class MenuScene: SKScene {
             ])
         startText.run(SKAction.repeatForever(pulseAction))
         
+        // Add the leaderboards button below the start button
+        leaderboardButton.texture = textureAtlas.textureNamed("leaderboards_button")
+        leaderboardButton.name = "LeaderboardsButton"
+        leaderboardButton.size = UIImage(named: "leaderboards_button")!.size
+        leaderboardButton.position = CGPoint(x: 0, y: -110)
+        leaderboardButton.zPosition = 2
+        self.addChild(leaderboardButton)
         // Add Justone to the background
         let screenWidth = self.size.width
         let screenHeight = self.size.height
@@ -245,6 +255,7 @@ class MenuScene: SKScene {
                 // Player touched either text or button node
                 // Switch to an instance of GameScene
                 let gameScene = GameScene(size: self.size)
+                
                 self.view?.presentScene(gameScene)
                 
             }
